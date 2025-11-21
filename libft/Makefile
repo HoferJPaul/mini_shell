@@ -6,7 +6,7 @@
 #    By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/24 13:49:01 by phofer            #+#    #+#              #
-#    Updated: 2025/09/18 17:59:03 by phofer           ###   ########.fr        #
+#    Updated: 2025/11/21 17:02:12 by phofer           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,32 +18,32 @@ SRC		= ft_strlen.c ft_atoi.c ft_memchr.c ft_memcmp.c ft_strchr.c \
 		  ft_strlcat.c ft_calloc.c ft_strdup.c ft_substr.c ft_strjoin.c \
 		  ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c ft_striteri.c \
 		  ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c \
-		  ft_strcmp.c ft_strcpy.c ft_strcat.c ft_strncpy.c ft_bubble_sort.c
+		  ft_strcmp.c ft_strcpy.c ft_strcat.c ft_strncpy.c ft_bubble_sort.c \
+		  ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
+		  ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c \
+		  ft_lstmap.c \
+		  ft_printf_utils.c ft_printf_utils2.c libftprintf.c \
+		  get_next_line_utils.c get_next_line.c ft_isspace.c
+
 OBJ		= $(SRC:.c=.o)
 CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
 AR		= ar rcs
 RM		= rm -f
-BONUS_SRC = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c \
-			ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c \
-			ft_lstmap.c
-BONUS_OBJ = $(BONUS_SRC:.c=.o)
+
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
 	$(AR) $(NAME) $(OBJ)
 
-bonus: $(OBJ) $(BONUS_OBJ)
-	$(AR) $(NAME) $(BONUS_OBJ)
-
 clean:
-	$(RM) $(OBJ) $(BONUS_OBJ)
+	$(RM) $(OBJ)
 
 fclean: clean
 	$(RM) $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re
 

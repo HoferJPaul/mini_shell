@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 13:53:55 by phofer            #+#    #+#             */
-/*   Updated: 2025/09/18 18:17:12 by phofer           ###   ########.fr       */
+/*   Updated: 2025/11/21 17:01:56 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_bubble_sort(int *arr, int size);
+int		ft_isspace(char c);
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -73,5 +74,8 @@ void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 void	ft_lstdelone(t_list *lst, void (*del)(void*));
+
+int		ft_printf(const char *phumat, ...);
+char	*get_next_line(int fd);
 
 #endif
