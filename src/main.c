@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 17:06:52 by phofer            #+#    #+#             */
-/*   Updated: 2025/11/21 17:23:37 by phofer           ###   ########.fr       */
+/*   Updated: 2025/11/25 15:51:29 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ static void	exec_simple(char	**args, char **envp)
 {
 	pid_t	pid;
 	int		status;
+
 }
 
 
