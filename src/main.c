@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 17:06:52 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/04 17:52:32 by phofer           ###   ########.fr       */
+/*   Updated: 2026/02/04 17:59:25 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ static void	setup_signals(void)
 
 //initiates parsing/tokenizing functions
 // located in ../src/parser
-static void	process_line(char *input)
-{
-	if (!lex_line(input))
-		return ;
-	// expand_tokens();
-	// parse_tokens();
-}
+// static void	process_line(char *input)
+// {
+// 	if (!lex_line(input))
+// 		return ;
+// 	// expand_tokens();
+// 	// parse_tokens();
+// }
 
 int	main(int argc, char **argv, char **envp)
 {
