@@ -3,20 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 17:06:52 by phofer            #+#    #+#             */
-/*   Updated: 2025/11/25 15:51:29 by phofer           ###   ########.fr       */
+/*   Updated: 2026/02/04 12:02:32 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <readline/history.h>
-#include <readline/readline.h>
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+
+#include "../include/minishell.h"
 
 int			g_exit_status = 0;
 
@@ -73,7 +68,7 @@ static int	is_empy_line(const char *str)
 }
 
 //simple version of exec for testing
-static void	exec_simple(char	**args, char **envp)
+/*static void	exec_simple(char	**args, char **envp)
 {
 	pid_t	pid;
 	int		status;
@@ -83,7 +78,7 @@ static void	exec_simple(char	**args, char **envp)
 
 static void	process_line(char *line, char **envp)
 {
-}
+}*/
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -91,6 +86,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	(void)envp;
 	setup_signals();
 	while (1)
 	{
@@ -102,7 +98,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (*input)
 			add_history(input);
-		process_line(input, envp);
+	//	process_line(input, envp);
 		free(input);
 	}
 	return (g_exit_status);
