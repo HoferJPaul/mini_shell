@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isspace.c                                       :+:      :+:    :+:   */
+/*   handle_signals.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/21 16:59:39 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/04 17:11:34 by phofer           ###   ########.fr       */
+/*   Created: 2026/02/04 12:08:33 by zgahrama          #+#    #+#             */
+/*   Updated: 2026/02/04 17:23:41 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isspace(char c)
-{
-	return ((c == ' ') || (c >= 9 && c <= 13));
-}
+#include "../include/minishell.h"
+
+//ctrl-c, ctrl-d, ctrl-'\' handling functions here
+

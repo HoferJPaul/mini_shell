@@ -6,7 +6,11 @@ OBJ_DIR		= objs
 LIBFT_DIR	= libft
 
 # Files
-SRC_FILES	= main.c
+SRC_FILES	=	main.c \
+				parser/parsing.c \
+				utils/cleanup.c \
+				utils/handle_signals.c \
+
 SRC			= $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ			= $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
 

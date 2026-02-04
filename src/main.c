@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 17:06:52 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/04 12:02:32 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/04 17:52:32 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../include/minishell.h"
+#include "../include/parser.h"
 
 int			g_exit_status = 0;
 
@@ -33,52 +34,15 @@ static void	setup_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-//splits args by spaces (" ")
-static char	**split_args(char *line)
+//initiates parsing/tokenizing functions
+// located in ../src/parser
+static void	process_line(char *input)
 {
-	return (ft_split(line, ' '));
-}
-
-//frees malloc'd jagged array
-static void	free_args(char **args)
-{
-	int	i;
-
-	if (!args)
+	if (!lex_line(input))
 		return ;
-	i = 0;
-	while (args[i])
-	{
-		free(args[i]);
-		i++;
-	}
-	free(args);
+	// expand_tokens();
+	// parse_tokens();
 }
-
-//verifies str is not empty line (whitespaces)
-static int	is_empy_line(const char *str)
-{
-	while (*str)
-	{
-		if (!ft_isspace)
-			return (0);
-		++str;
-	}
-	return (1);
-}
-
-//simple version of exec for testing
-/*static void	exec_simple(char	**args, char **envp)
-{
-	pid_t	pid;
-	int		status;
-
-}
-
-
-static void	process_line(char *line, char **envp)
-{
-}*/
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -97,8 +61,10 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		}
 		if (*input)
+		{
 			add_history(input);
-	//	process_line(input, envp);
+			//process_line(input);
+		}
 		free(input);
 	}
 	return (g_exit_status);
