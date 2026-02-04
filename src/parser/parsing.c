@@ -1,16 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_signals.c                                   :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/04 12:08:33 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/04 12:20:36 by zgahrama         ###   ########.fr       */
+/*   Created: 2026/02/04 16:32:40 by phofer            #+#    #+#             */
+/*   Updated: 2026/02/04 17:33:36 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-//ctrl-c, ctrl-d, ctrl-'\' handling functions here
+static void	skip_whitespaces(const char *str, size_t *i)
+{
+	while (ft_isspace(str[*i]))
+		(*i)++;
+}
 
+int	lex_line(const char *input)
+{
+	size_t	i;
+
+	i = 0;
+	while (input[i])
+	{
+		skip_whitespaces(input, &i);
+		if (!input[i])
+			break ;
+	}
+	return (1);
+}

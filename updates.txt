@@ -1,0 +1,14 @@
+update 04.12 1730 by phofer
+{
+	- created subfolders 'parser, utils'
+	- added keywords to makefile
+	- added header parser.h
+	- removed unused functions from main.c
+	- fixed compile issues with ft_isspace
+	- created function process_line()
+	- started on parsing/lexing functions
+
+	#make compiles and it runs with working history!
+	#The parsing function work in progress breaks the history for now.
+	#You can test by commenting out the parsing functions
+}
