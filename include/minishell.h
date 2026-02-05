@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/04 12:03:47 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/05 13:21:29 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@
                                   // rl_replace_line, rl_redisplay
 # include <readline/history.h>    // add_history, rl_clear_history
 
-
+extern int			g_exit_status;
 // =================== FUNCTIONS ============================
 
+void	sigint_handler(int signo);
+void	setup_signals(void);
+void    ctrl_d(char *line);
 #endif
