@@ -17,3 +17,9 @@ update 05.12 14.30 by zgahrama
 		**technically it is not a signal we are catching but all the ctrl features are in the same place now.
 	-already tested, should compile without an issue.
 }
+update 05.12 17.06 by zgahrama
+{
+	-wrote the echo built-in function
+	-tested in different environment since we dont have the parser yet.
+	-first version, can update later on project
+}
