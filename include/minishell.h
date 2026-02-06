@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/05 13:21:29 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/06 17:23:11 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,25 @@
                                   // rl_replace_line, rl_redisplay
 # include <readline/history.h>    // add_history, rl_clear_history
 
+typedef struct s_env
+{
+    char *key;
+    char *value;
+    struct s_env *next;
+} t_env;
+
 extern int			g_exit_status;
 // =================== FUNCTIONS ============================
 
 void	sigint_handler(int signo);
 void	setup_signals(void);
 void    ctrl_d(char *line);
+//================ ENV CREATION AND UTILS ===================
+t_env *create_env(char *key, char *value);
+t_env *env_from_string(char *str);
+t_env *env_copy(char **envp);
+char *env_get(t_env *env, char *key);
+void env_set(t_env **env, char *key, char *value);
+int env_size(t_env *env);
+char **env_to_array(t_env *env);
 #endif
