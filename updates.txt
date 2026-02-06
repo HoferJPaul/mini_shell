@@ -10,16 +10,21 @@ update 04.12 1730 by phofer
 
 	#make compiles and it runs with working history!
 }
-update 05.12 14.30 by zgahrama
+update 05.02 14.30 by zgahrama
 {
 	-did the signal handling functions
 	-there is also handling ctrl-d handling which was in main function before.
 		**technically it is not a signal we are catching but all the ctrl features are in the same place now.
 	-already tested, should compile without an issue.
 }
-update 05.12 17.06 by zgahrama
+update 05.02 17.06 by zgahrama
 {
 	-wrote the echo built-in function
 	-tested in different environment since we dont have the parser yet.
 	-first version, can update later on project
+}
+update 06.02 12.41 by zgahrama
+{
+	-wrote the env built-in function
+	-tested but after the parser ready, needs re-testing
 }
