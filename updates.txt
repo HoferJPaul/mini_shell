@@ -34,3 +34,12 @@ update 06.02 15.13 by zgahrama
 	-tested but after the parser ready, needs re-testing
 	-checked with valgrind as well shouldn't have leaks.
 }
+update 06.02 17:00 by phofer
+{
+	- updated main.c:
+		- moved funtions into init.c
+		- created shell_loop(), init()
+	- created t_shell struct in minishell.h
+	- created global variable g_sigint_received
+	- changed setup_signals() to work with new global
+}
