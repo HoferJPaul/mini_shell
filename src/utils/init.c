@@ -1,43 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/04 16:32:40 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/06 17:30:36 by phofer           ###   ########.fr       */
+/*   Created: 2026/02/06 16:19:14 by phofer            #+#    #+#             */
+/*   Updated: 2026/02/06 17:17:43 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int	is_metachar(char c)
+#include "../include/parser.h"
+
+//initiates parsing/tokenizing functions - located in ../src/parser
+void	process_line(char *input)
 {
-	return (c == '|' || c == '<' || c == '>');
+	if (!lex_line(input))
+		return ;
+	// expand_tokens();
+	// parse_tokens();
 }
 
-static int	is_quote(char c)
+int setup_struct(t_shell *mini, char **envp)
 {
-	return (c == '\'' || c == '"');
-}
-
-static void	skip_whitespaces(const char *str, size_t *i)
-{
-	while (ft_isspace(str[*i]))
-		(*i)++;
-}
-
-int	lex_line(const char *input)
-{
-	size_t	i;
-
-	i = 0;
-	while (input[i])
-	{
-		skip_whitespaces(input, &i);
-		if (!input[i])
-			break ;
-	}
-	return (1);
+	//initialize all struct variables
+	mini->flag = 0;
+	mini->g_exit_status = 1;
+	mini->running = 1;
+	(void)envp;
+	//TODO - env(envp)
+	return 1;
 }
