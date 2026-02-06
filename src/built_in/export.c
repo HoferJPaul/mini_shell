@@ -6,8 +6,13 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:53:14 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/05 14:55:40 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/06 13:55:38 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void export(char **envp)
+{
+    
+}

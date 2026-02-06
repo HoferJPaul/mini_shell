@@ -28,3 +28,9 @@ update 06.02 12.41 by zgahrama
 	-wrote the env built-in function
 	-tested but after the parser ready, needs re-testing
 }
+update 06.02 15.13 by zgahrama
+{
+	-wrote pwd function
+	-tested but after the parser ready, needs re-testing
+	-checked with valgrind as well shouldn't have leaks.
+}
