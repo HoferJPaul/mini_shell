@@ -6,21 +6,11 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 16:32:40 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/06 17:30:36 by phofer           ###   ########.fr       */
+/*   Updated: 2026/02/06 17:43:09 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-static int	is_metachar(char c)
-{
-	return (c == '|' || c == '<' || c == '>');
-}
-
-static int	is_quote(char c)
-{
-	return (c == '\'' || c == '"');
-}
 
 static void	skip_whitespaces(const char *str, size_t *i)
 {
