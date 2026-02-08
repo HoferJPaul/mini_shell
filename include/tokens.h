@@ -1,18 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   tokens.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/04 17:05:48 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/08 12:49:46 by phofer           ###   ########.fr       */
+/*   Created: 2026/02/06 18:50:47 by phofer            #+#    #+#             */
+/*   Updated: 2026/02/08 12:42:11 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
 
-int	lex_line(t_shell *mini, const char *input);
+#ifndef TOKENS_H
+# define TOKENS_H
+
+# include <stddef.h>
+
+typedef enum e_token_type
+{
+	T_STRING,
+	T_PIPE,
+	T_REDIR_IN,
+	T_REDIR_OUT,
+	T_HEREDOC,
+	T_APPEND
+}	t_token_type;
+
+typedef struct s_scan
+{
+	size_t		end;
+	size_t		len;
+}	t_scan;
+
+typedef struct s_token
+{
+	t_token_type	type;
+	char			*value;
+	int				heredoc;
+	struct s_token	*next;
+}	t_token;
 
 #endif

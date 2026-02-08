@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/06 17:14:10 by phofer           ###   ########.fr       */
+/*   Updated: 2026/02/08 12:47:22 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@
                                   // rl_replace_line, rl_redisplay
 # include <readline/history.h>    // add_history, rl_clear_history
 
+// =================== DEFINITIONS =========================
+
 extern volatile sig_atomic_t g_sigint_received;
+typedef struct s_token	t_token;
 
 // =================== STRUCT ===============================
 
@@ -66,6 +69,7 @@ typedef struct s_shell
 	int flag;
 	int	g_exit_status;
 	int running;
+	t_token *tokens;
 }	t_shell;
 
 // =================== FUNCTIONS ============================
@@ -74,4 +78,5 @@ int 	setup_struct(t_shell *mini, char **envp);
 void	sigint_handler(int signo);
 void	setup_signals(t_shell *mini);
 void    ctrl_d(char *line);
+void	process_line(t_shell *mini, char *input);
 #endif
