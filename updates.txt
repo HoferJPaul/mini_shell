@@ -43,3 +43,9 @@ update 06.02 17:00 by phofer
 	- created global variable g_sigint_received
 	- changed setup_signals() to work with new global
 }
+update 08.02 16:00 by phofer
+{
+	- created various functions to handle parsing/lexing
+	- created enum for token types
+		(in parsing branch)
+}
