@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 18:50:47 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/08 12:42:11 by phofer           ###   ########.fr       */
+/*   Updated: 2026/02/08 14:24:24 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 typedef enum e_token_type
 {
+	T_NONE,
 	T_STRING,
 	T_PIPE,
 	T_REDIR_IN,
