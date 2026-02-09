@@ -34,3 +34,9 @@ update 06.02 15.13 by zgahrama
 	-tested but after the parser ready, needs re-testing
 	-checked with valgrind as well shouldn't have leaks.
 }
+update 06.02 15.07 by zgahrama
+{
+	-environment copying
+	-env functions like env_get and env_set done
+	-checked in seperate directory, should work properly
+}
