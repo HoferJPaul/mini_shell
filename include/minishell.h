@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/06 17:23:11 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/09 15:54:25 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,22 @@ typedef struct s_env
     struct s_env *next;
 } t_env;
 
-extern int			g_exit_status;
+extern volatile sig_atomic_t g_sigint_received;
+
+// =================== STRUCT ===============================
+
+typedef struct s_shell
+{
+	int flag;
+	int	g_exit_status;
+	int running;
+}	t_shell;
+
 // =================== FUNCTIONS ============================
 
+int 	setup_struct(t_shell *mini, char **envp);
 void	sigint_handler(int signo);
-void	setup_signals(void);
+void	setup_signals(t_shell *mini);
 void    ctrl_d(char *line);
 //================ ENV CREATION AND UTILS ===================
 t_env *create_env(char *key, char *value);

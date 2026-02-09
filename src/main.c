@@ -3,37 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 17:06:52 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/05 13:58:13 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/06 17:25:40 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../include/minishell.h"
-#include "../include/parser.h"
 
-//initiates parsing/tokenizing functions
-// located in ../src/parser
-// static void	process_line(char *input)
-// {
-// 	if (!lex_line(input))
-// 		return ;
-// 	// expand_tokens();
-// 	// parse_tokens();
-// }
-int			g_exit_status = 0;
+volatile sig_atomic_t g_sigint_received = 0;
 
-int	main(int argc, char **argv, char **envp)
+static void shell_loop(t_shell *mini)
 {
 	char	*input;
 
-	(void)argc;
-	(void)argv;
-	(void)envp;
-	setup_signals();
-	while (1)
+	while (mini->running)
 	{
 		input = readline("minishell> ");
 		ctrl_d(input);
@@ -44,5 +29,23 @@ int	main(int argc, char **argv, char **envp)
 		}
 		free(input);
 	}
-	return (g_exit_status);
+}
+int	main(int argc, char **argv, char **envp)
+{
+	t_shell mini;
+	memset(&mini, 0, sizeof(t_shell));
+
+	if (argc != 1)
+	{
+		ft_putstr_fd("Error: args forbidden", 2);
+		return (1);
+	}
+	(void)argv;
+	if (!setup_struct(&mini, envp))
+		return (1);
+	setup_signals(&mini);
+	shell_loop(&mini);
+
+	//todo cleanup();
+	return (mini.g_exit_status);
 }
