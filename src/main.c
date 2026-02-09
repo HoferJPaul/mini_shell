@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 17:06:52 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/08 15:07:43 by phofer           ###   ########.fr       */
+/*   Updated: 2026/02/09 17:33:45 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void shell_loop(t_shell *mini)
 		if (*input)
 		{
 			add_history(input);
-			process_line_test(mini, input);
+			process_line(mini, input);
 		}
 		free(input);
 	}

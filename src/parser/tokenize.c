@@ -6,12 +6,31 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 16:32:40 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/08 15:26:00 by phofer           ###   ########.fr       */
+/*   Updated: 2026/02/09 17:21:29 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 #include "../include/tokens.h"
+#include "../include/parser.h"
+
+//determines operator type and len
+static t_token_type	get_operator_info(const char *s, size_t *len)
+{
+	if (!s || !len)
+		return (T_NONE);
+	if (s[0] == '<' && s[1] == '<')
+		return (*len = 2, T_HEREDOC);
+	if (s[0] == '>' && s[1] == '>')
+		return (*len = 2, T_APPEND);
+	if (s[0] == '|')
+		return (*len = 1, T_PIPE);
+	if (s[0] == '<')
+		return (*len = 1, T_REDIR_IN);
+	if (s[0] == '>')
+		return (*len = 1, T_REDIR_OUT);
+	return (*len = 0, T_NONE);
+}
 
 //allocates a new token
 t_token	*new_token(t_token_type type, const char *str, size_t len)
@@ -52,25 +71,8 @@ void	add_token(t_token **head, t_token *new)
 	}
 }
 
-//determines operator type and len
-t_token_type	get_operator_info(const char *s, size_t *len)
-{
-	if (!s || !len)
-		return (T_NONE);
-	if (s[0] == '<' && s[1] == '<')
-		return (*len = 2, T_HEREDOC);
-	if (s[0] == '>' && s[1] == '>')
-		return (*len = 2, T_APPEND);
-	if (s[0] == '|')
-		return (*len = 1, T_PIPE);
-	if (s[0] == '<')
-		return (*len = 1, T_REDIR_IN);
-	if (s[0] == '>')
-		return (*len = 1, T_REDIR_OUT);
-	return (*len = 0, T_NONE);
-}
 //handles operator
-int tokenize_operator(t_token **tokens, const char *str, size_t *i)
+static int tokenize_operator(t_token **tokens, const char *str, size_t *i)
 {
 	t_token_type	type;
 	size_t			len;
@@ -85,23 +87,8 @@ int tokenize_operator(t_token **tokens, const char *str, size_t *i)
 	return (0);
 }
 
-int	is_quote(char c)
-{
-	return (c == '\'' || c == '"');
-}
 
-int	is_operator(char c)
-{
-	return (c == '|' || c == '<' || c == '>');
-}
-
-static void	skip_whitespaces(const char *str, size_t *i)
-{
-	while (ft_isspace(str[*i]))
-		(*i)++;
-}
-
-int	lex_line(t_shell *mini, const char *input)
+int	tokenize_input(t_shell *mini, const char *input)
 {
 	size_t	i;
 
@@ -110,17 +97,17 @@ int	lex_line(t_shell *mini, const char *input)
 
 	mini->tokens = NULL;
 	i = 0;
-	while (input[i] || input[i] != '\n')
+	while (input[i])
 	{
 		skip_whitespaces(input, &i);
-		if (!input[i] && input[i] != '\n')
+		if (!input[i])
 			break ;
 		if (is_operator(input[i]))
 		{
 			if (tokenize_operator(&mini->tokens, input, &i) != 0)
 				return (-1);
 		}
-		else if (tokenize_word(mini->tokens, input, &i) != 0) //todo
+		else if (tokenize_word(&mini->tokens, input, &i) != 0)
 		{
 			ft_putstr_fd("error: lex line\n", 2);
 			return (1);

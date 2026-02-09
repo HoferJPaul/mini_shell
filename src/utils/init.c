@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 16:19:14 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/08 15:11:34 by phofer           ###   ########.fr       */
+/*   Updated: 2026/02/09 17:33:57 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 //initiates parsing/tokenizing functions - located in ../src/parser
 void	process_line(t_shell *mini, char *input)
 {
-	if (!lex_line(&mini, input))
+	if (!tokenize_input(mini, input))
 		return ;
 	// expand_tokens();
 	// parse_tokens();

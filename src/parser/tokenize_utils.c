@@ -1,46 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokens.h                                           :+:      :+:    :+:   */
+/*   tokenize_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/06 18:50:47 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/09 17:31:05 by phofer           ###   ########.fr       */
+/*   Created: 2026/02/04 16:32:40 by phofer            #+#    #+#             */
+/*   Updated: 2026/02/09 17:29:40 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../include/tokens.h"
 
-#ifndef TOKENS_H
-# define TOKENS_H
-
-# include "minishell.h"
-# include <stddef.h>
-# include <stdint.h>
-
-typedef enum e_token_type
+int	is_quote(char c)
 {
-	T_NONE,
-	T_STRING,
-	T_PIPE,
-	T_REDIR_IN,
-	T_REDIR_OUT,
-	T_HEREDOC,
-	T_APPEND
-}	t_token_type;
+	return (c == '\'' || c == '"');
+}
 
-typedef struct s_word_range
+int	is_operator(char c)
 {
-	size_t	end;
-	size_t	len;
-}	t_word_range;
+	return (c == '|' || c == '<' || c == '>');
+}
 
-typedef struct s_token
+void	skip_whitespaces(const char *str, size_t *i)
 {
-	t_token_type	type;
-	char			*value;
-	int				heredoc;
-	struct s_token	*next;
-}	t_token;
-
-#endif
+	while (ft_isspace(str[*i]))
+		(*i)++;
+}
