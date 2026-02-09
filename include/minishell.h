@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/08 15:14:54 by phofer           ###   ########.fr       */
+/*   Updated: 2026/02/09 18:04:51 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,12 @@
                                   // rl_replace_line, rl_redisplay
 # include <readline/history.h>    // add_history, rl_clear_history
 
-// =================== DEFINITIONS =========================
+typedef struct s_env
+{
+    char *key;
+    char *value;
+    struct s_env *next;
+} t_env;
 
 extern volatile sig_atomic_t g_sigint_received;
 typedef struct s_token	t_token;
@@ -78,5 +83,12 @@ int 	setup_struct(t_shell *mini, char **envp);
 void	sigint_handler(int signo);
 void	setup_signals(t_shell *mini);
 void    ctrl_d(char *line);
-void	process_line(t_shell *mini, char *input);
+//================ ENV CREATION AND UTILS ===================
+t_env *create_env(char *key, char *value);
+t_env *env_from_string(char *str);
+t_env *env_copy(char **envp);
+char *env_get(t_env *env, char *key);
+void env_set(t_env **env, char *key, char *value);
+int env_size(t_env *env);
+char **env_to_array(t_env *env);
 #endif
