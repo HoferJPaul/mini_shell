@@ -1,0 +1,12 @@
+# Binaries
+minishell
+
+# Object files and build directories
+objs/
+src/tests/
+*.o
+*.a
+
+libft/*.a
+libft/*.o
+

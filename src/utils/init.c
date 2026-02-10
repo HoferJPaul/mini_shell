@@ -6,18 +6,17 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 16:19:14 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/10 13:12:36 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/10 13:16:59 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
 #include "../include/parser.h"
 
 //initiates parsing/tokenizing functions - located in ../src/parser
-void	process_line(char *input)
+void	process_line(t_shell *mini, char *input)
 {
-	if (!lex_line(input))
+	if (!tokenize_input(mini, input))
 		return ;
 	// expand_tokens();
 	// parse_tokens();

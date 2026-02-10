@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/10 11:36:39 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/10 13:18:13 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ typedef struct s_env
     struct s_env *next;
 } t_env;
 
+extern volatile sig_atomic_t g_sigint_received;
+typedef struct s_token	t_token;
+
+// =================== STRUCT ===============================
+
 typedef struct s_shell
 {
     struct s_env	*env;				//copied env pointer
@@ -73,6 +78,7 @@ typedef struct s_shell
     int 			flag;
     int 			g_exit_status;
     int 			running;
+	t_token *tokens;
 } t_shell;
 
 extern volatile sig_atomic_t g_sigint_received;
