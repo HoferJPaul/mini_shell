@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 16:19:14 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/10 13:06:08 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/10 13:12:36 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int setup_struct(t_shell *mini, char **envp, t_env *env)
         mini->paths = ft_split(path_value, ':');
     else
         mini->paths = NULL;
-		//cleanup the initialized stuff
+		//cleanup the initialized stuff(?)
     if (path_value && !mini->paths)
         return (0);
     mini->cwd = getcwd(NULL, 0);
