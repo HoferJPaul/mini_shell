@@ -56,3 +56,10 @@ update 09.02 15.07 by zgahrama
 	-env functions like env_get and env_set done
 	-checked in seperate directory, should work properly
 }
+update 10.02 13.08 by zgahrama
+{
+	-added some variables to shell structure
+	-updated the shell init function
+	**on a side note: i think we don't need the envp argument, 
+	**we can just copy it to our env structure at the start of the programme and use it.
+}
