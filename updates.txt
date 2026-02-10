@@ -56,6 +56,13 @@ update 09.02 15.07 by zgahrama
 	-env functions like env_get and env_set done
 	-checked in seperate directory, should work properly
 }
+update 08.02 18:00 by phofer
+{
+	- finished tokenization! (1/3 parts of paring ;D )
+	- tested and everything works succesfully.
+	- main compiles, but currently no way to interact/test without test functions
+}
+
 update 10.02 13.08 by zgahrama
 {
 	-added some variables to shell structure
