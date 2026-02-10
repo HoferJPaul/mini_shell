@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/09 16:44:26 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/10 11:36:39 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@
                                // rl_replace_line, rl_redisplay
 #include <readline/history.h>  // add_history, rl_clear_history
 
+// =================== STRUCT ===============================
 typedef struct s_env
 {
     char *key;
@@ -64,21 +65,17 @@ typedef struct s_env
     struct s_env *next;
 } t_env;
 
-extern volatile sig_atomic_t g_sigint_received;
-
-// =================== STRUCT ===============================
-
 typedef struct s_shell
 {
     struct s_env	*env;				//copied env pointer
     char 			**paths;			// Parsed PATH directories (from env)
-    int 			last_exit_status;	// Exit status of last command ($?)
     char 			*cwd;				// Current working directory
     int 			flag;
     int 			g_exit_status;
     int 			running;
 } t_shell;
 
+extern volatile sig_atomic_t g_sigint_received;
 // =================== FUNCTIONS ============================
 
 int setup_struct(t_shell *mini, char **envp);
