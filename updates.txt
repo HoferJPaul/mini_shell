@@ -50,7 +50,7 @@ update 08.02 16:00 by phofer
 		(in parsing branch)
 }
 
-update 06.02 15.07 by zgahrama
+update 09.02 15.07 by zgahrama
 {
 	-environment copying
 	-env functions like env_get and env_set done

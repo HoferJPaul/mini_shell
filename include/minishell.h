@@ -6,56 +6,56 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/09 15:54:25 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/09 16:44:26 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-# define MINISHELL_H
+#define MINISHELL_H
 
 #include "../libft/libft.h"
 /* ===================== C STANDARD ===================== */
 
-# include <stdlib.h>     // malloc, free, getenv, exit
-# include <stdio.h>      // printf, perror
-# include <string.h>    // strerror
-# include <errno.h>     // errno
+#include <stdlib.h> // malloc, free, getenv, exit
+#include <stdio.h>  // printf, perror
+#include <string.h> // strerror
+#include <errno.h>  // errno
 
 /* ===================== UNIX / POSIX ==================== */
 
-# include <unistd.h>     // read, write, access, close, fork, execve,
-                         // dup, dup2, pipe, chdir, getcwd,
-                         // isatty, ttyname, ttyslot
+#include <unistd.h> // read, write, access, close, fork, execve,
+                    // dup, dup2, pipe, chdir, getcwd,
+                    // isatty, ttyname, ttyslot
 
-# include <fcntl.h>      // open
-# include <sys/types.h>  // pid_t
-# include <sys/stat.h>   // stat, lstat, fstat, unlink
-# include <dirent.h>     // opendir, readdir, closedir
+#include <fcntl.h>     // open
+#include <sys/types.h> // pid_t
+#include <sys/stat.h>  // stat, lstat, fstat, unlink
+#include <dirent.h>    // opendir, readdir, closedir
 
 /* ===================== PROCESS / WAIT ================== */
 
-# include <sys/wait.h>   // wait, waitpid, wait3, wait4
+#include <sys/wait.h> // wait, waitpid, wait3, wait4
 
 /* ===================== SIGNALS ========================= */
 
-# include <signal.h>     // signal, sigaction,
-                         // sigemptyset, sigaddset, kill
+#include <signal.h> // signal, sigaction,
+                    // sigemptyset, sigaddset, kill
 
 /* ===================== TERMINAL / TTY ================== */
 
-# include <termios.h>    // tcgetattr, tcsetattr
-# include <sys/ioctl.h>  // ioctl
+#include <termios.h>   // tcgetattr, tcsetattr
+#include <sys/ioctl.h> // ioctl
 
 /* ===================== TERMCAP ========================= */
 
-# include <termcap.h>    // tgetent, tgetflag, tgetnum,
-                         // tgetstr, tgoto, tputs
+#include <termcap.h> // tgetent, tgetflag, tgetnum,
+                     // tgetstr, tgoto, tputs
 
 /* ===================== READLINE ======================== */
 
-# include <readline/readline.h>   // readline, rl_on_new_line,
-                                  // rl_replace_line, rl_redisplay
-# include <readline/history.h>    // add_history, rl_clear_history
+#include <readline/readline.h> // readline, rl_on_new_line,
+                               // rl_replace_line, rl_redisplay
+#include <readline/history.h>  // add_history, rl_clear_history
 
 typedef struct s_env
 {
@@ -70,17 +70,21 @@ extern volatile sig_atomic_t g_sigint_received;
 
 typedef struct s_shell
 {
-	int flag;
-	int	g_exit_status;
-	int running;
-}	t_shell;
+    struct s_env	*env;				//copied env pointer
+    char 			**paths;			// Parsed PATH directories (from env)
+    int 			last_exit_status;	// Exit status of last command ($?)
+    char 			*cwd;				// Current working directory
+    int 			flag;
+    int 			g_exit_status;
+    int 			running;
+} t_shell;
 
 // =================== FUNCTIONS ============================
 
-int 	setup_struct(t_shell *mini, char **envp);
-void	sigint_handler(int signo);
-void	setup_signals(t_shell *mini);
-void    ctrl_d(char *line);
+int setup_struct(t_shell *mini, char **envp);
+void sigint_handler(int signo);
+void setup_signals(t_shell *mini);
+void ctrl_d(char *line);
 //================ ENV CREATION AND UTILS ===================
 t_env *create_env(char *key, char *value);
 t_env *env_from_string(char *str);
