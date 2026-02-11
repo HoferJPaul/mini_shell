@@ -70,3 +70,9 @@ update 10.02 13.08 by zgahrama
 	**on a side note: i think we don't need the envp argument, 
 	**we can just copy it to our env structure at the start of the programme and use it.
 }
+
+update 11.02 12.12 by zgahrama
+{
+	-path creating/refreshing functions created
+	-unit testing
+}
