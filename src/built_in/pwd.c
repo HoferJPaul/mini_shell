@@ -6,29 +6,22 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:52:39 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/06 15:05:07 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/11 13:39:05 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-void pwd(void)
+/*@brief
+// Replica of the pwd builtin: prints the current working directory
+// stored in the shell context. If the directory is not available,
+// prints an error message and returns.
+*/
+void pwd(t_shell *mini)
 {
-    char *cwd;
-    
-    cwd = malloc(1024 * sizeof(char));
-    if (!cwd)
+    if(!mini->cwd)
     {
-        perror("malloc failed!");
+        perror("cwd NULL!");
         return;
     }
-    if (getcwd(cwd, 1024) != NULL)
-    {
-        printf("%s\n", cwd);
-    }
-    else
-    {
-        perror("getcwd error!");
-    }
-    free(cwd);
+    printf("%s\n", mini->cwd);
 }
