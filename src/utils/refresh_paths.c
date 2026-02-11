@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:47:24 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/10 16:48:51 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/11 12:11:04 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void init_paths(t_env *env, t_shell *mini) // to initialize the path at first
         mini->paths = ft_split(path_value, ':');
     else
         mini->paths = NULL;
-    if (path_value && !mini->paths)
-        return;
 }
 
 void refresh_paths(t_shell *mini) // only called in unset and export
@@ -31,37 +29,38 @@ void refresh_paths(t_shell *mini) // only called in unset and export
     char *path_value;
 
     if (mini->paths)
-        free_array(mini->paths); // destroy old before creating new, leak protection **function needs to be created in cleanup
+        free_array(mini->paths); // destroy old before creating new, leak protection
     path_value = env_get(mini->env, "PATH");
     if (path_value)
         mini->paths = ft_split(path_value, ':');
     else
         mini->paths = NULL;
 }
-char *path_append(char *old, char *add)
+char *path_append(char *old, char *add)//helper to add a new path to existing one
 {
     char *tmp;
     char *res;
 
     if (!old)
-        return strdup(add);
-    tmp = malloc(strlen(old) + strlen(add) + 2); // to be freed in exit
-    sprintf(tmp, "%s:%s", old, add);
-    res = tmp;
+        return ft_strdup(add);
+    tmp = ft_strjoin(old, ":");
+    if (!tmp)
+        return NULL;
+    res = ft_strjoin(tmp, add);
+    free(tmp);
     return res;
 }
 
-void add_new_paths(t_shell *mini, char *new_path)
+void add_new_paths(t_shell *mini, char *new_path)//value of new_path should be recieved in right format
 {
-    char *path_value;
-    char *tmp;
-    path_value = env_get(mini->env, "PATH");
+    char *old;
+    char *new_value;
 
-    if (path_value)
-        mini->paths = ft_split(path_value, ':');
-    else
-        mini->paths = NULL;
-    tmp = path_append(path_value, new_path);
-    env_set(&mini->env, "PATH", tmp);
-    free(tmp);
+    old = env_get(mini->env, "PATH");
+    new_value = path_append(old, new_path);
+    if (!new_value)
+        return;
+    env_set(&mini->env, "PATH", new_value);
+    free(new_value);
+    refresh_paths(mini);   // ← rebuild cache
 }
