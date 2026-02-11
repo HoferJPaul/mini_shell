@@ -6,13 +6,13 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 16:43:23 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/06 17:20:41 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/11 13:37:24 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_env *create_env(char *key, char *value)//create the linked list to put the env inside.
+t_env *create_env(char *key, char *value)//create the linked list node to put the key<->value pairs inside.
 {
     t_env *node; 
     node = malloc(sizeof(t_env));//needs to be freed at cleanup!!!
@@ -24,25 +24,25 @@ t_env *create_env(char *key, char *value)//create the linked list to put the env
     return node;
 }
 
-t_env *env_from_string(char *str)//parsing the key-value pairs and putting them in the copy env node
+t_env *env_from_string(char *str)//parsing the key<->value pairs and putting them in the copy env node
 {
     char *eq;
     
     eq = ft_strchr(str, '=');
     if (!eq)
-        return env_new(str, NULL);
+        return create_env(str, NULL);
 
     char *key = ft_strndup(str, eq - str);
     char *value = ft_strdup(eq + 1);
 
-    t_env *node = env_new(key, value);
+    t_env *node = create_env(key, value);
 
     free(key);
     free(value);
     return node;
 }
 
-t_env *env_copy(char **envp)//copying the env
+t_env *env_copy(char **envp)//copying the envp inside our structure
 {
     t_env *head = NULL;
     t_env *tail = NULL;
