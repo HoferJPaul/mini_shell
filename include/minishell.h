@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/11 12:21:02 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/13 15:41:32 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_env
 {
     char *key;
     char *value;
+    int   exported_flag;
     struct s_env *next;
 } t_env;
 
@@ -92,7 +93,7 @@ t_env *create_env(char *key, char *value);
 t_env *env_from_string(char *str);
 t_env *env_copy(char **envp);
 char *env_get(t_env *env, char *key);
-void env_set(t_env **env, char *key, char *value);
+void env_set(t_env **env, char *key, char *value, int exported_flag);
 int env_size(t_env *env);
 char **env_to_array(t_env *env);
 void init_paths(t_env *env, t_shell *mini);

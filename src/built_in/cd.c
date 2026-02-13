@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:52:22 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/11 16:48:45 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/13 15:41:49 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ static void cd_update_pwd_vars(t_shell *mini, char *oldpwd)
         perror("cd");
         return;
     }
-    env_set(&mini->env, "OLDPWD", oldpwd);
-    env_set(&mini->env, "PWD", new_pwd);
+    env_set(&mini->env, "OLDPWD", oldpwd, 0);
+    env_set(&mini->env, "PWD", new_pwd, 0);
     free(mini->cwd);
     mini->cwd = ft_strdup(new_pwd);
     free(new_pwd);

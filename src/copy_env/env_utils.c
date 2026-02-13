@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 17:12:51 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/06 17:19:29 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/13 15:40:42 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char *env_get(t_env *env, char *key)//we'll use this instead of getenv
     return NULL;
 }
 
-void env_set(t_env **env, char *key, char *value)//set/update the env
+void env_set(t_env **env, char *key, char *value, int exported_flag)//set/update the env
 {
     t_env *tmp = *env;
 
@@ -33,6 +33,7 @@ void env_set(t_env **env, char *key, char *value)//set/update the env
         {
             free(tmp->value);
             tmp->value = ft_strdup(value);
+            tmp->exported_flag = exported_flag;
             return;
         }
         tmp = tmp->next;
