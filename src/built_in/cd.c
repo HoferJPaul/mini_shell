@@ -6,11 +6,12 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:52:22 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/11 16:40:13 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/11 16:48:45 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
 
 static char *cd_resolve_target(t_shell *mini, char **argv)
 {
@@ -71,7 +72,13 @@ static void cd_update_pwd_vars(t_shell *mini, char *oldpwd)
     free(new_pwd);
     free(oldpwd);
 }
-
+/*
+** cd builtin:
+** 1) (helper)Resolve target: HOME if no arg, OLDPWD if "-", else argv[2].
+** 2) Save current directory with getcwd().
+** 3) chdir() to target; on failure, print error and keep cwd unchanged.
+** 4) On success, update OLDPWD/PWD in env and mini->cwd.
+*/
 int cd(t_shell *mini, char **argv)
 {
     char	*target;
