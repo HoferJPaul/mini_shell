@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 13:47:24 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/11 12:11:04 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/13 15:42:19 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void add_new_paths(t_shell *mini, char *new_path)//value of new_path should be r
     new_value = path_append(old, new_path);
     if (!new_value)
         return;
-    env_set(&mini->env, "PATH", new_value);
+    env_set(&mini->env, "PATH", new_value, 0);
     free(new_value);
     refresh_paths(mini);   // ← rebuild cache
 }
