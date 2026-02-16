@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 17:12:51 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/13 15:40:42 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/16 14:23:44 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void env_set(t_env **env, char *key, char *value, int exported_flag)//set/update
         tmp = tmp->next;
     }
     // not found → add new
-    t_env *new = create_env(key, value);
+    t_env *new = create_env(key, value, exported_flag);
     new->next = *env;
     *env = new;
 }

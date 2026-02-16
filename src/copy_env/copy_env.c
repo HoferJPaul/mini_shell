@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 16:43:23 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/16 13:32:59 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/16 15:06:40 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ t_env *create_env(char *key, char *value, int exported)//create the linked list 
     if (!node)
         return NULL;
     node->key = ft_strdup(key);
+    if(!value)
+        node->value = NULL;
+    else
+        node->value = ft_strdup(value);
     node->value = ft_strdup(value);
     node->exported_flag = exported;
     node->next = NULL;
