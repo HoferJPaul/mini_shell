@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/10 13:18:13 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/12 14:07:55 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ typedef struct s_shell
 
 extern volatile sig_atomic_t g_sigint_received;
 // =================== FUNCTIONS ============================
-
+void	process_line(t_shell *mini, char *input);
 int setup_struct(t_shell *mini, char **envp);
 void sigint_handler(int signo);
 void setup_signals(t_shell *mini);
