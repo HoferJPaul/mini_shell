@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 16:43:23 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/16 15:06:40 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/16 16:21:59 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_env *env_from_string(char *str)//parsing the key<->value pairs and putting the
     if (!eq)
         return create_env(str, NULL, 1);
 
-    char *key = ft_strndup(str, eq - str);
+    char *key = strndup(str, eq - str);//need to write ours
     char *value = ft_strdup(eq + 1);
 
     t_env *node = create_env(key, value, 1);

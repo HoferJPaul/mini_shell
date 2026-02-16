@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/16 15:59:11 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/16 16:15:01 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,7 @@ void init_paths(t_env *env, t_shell *mini);
 void refresh_paths(t_shell *mini);
 void add_new_paths(t_shell *mini, char *new_path);
 void print_env(t_env *env);
+//==================CLEANUP===================================
+void free_array(char **arr);
 
 #endif

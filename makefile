@@ -10,14 +10,21 @@ SRC_FILES	=	main.c \
 				utils/cleanup.c \
 				utils/handle_signals.c \
 				utils/init.c \
+				utils/refresh_paths.c \
+				built_in/cd.c \
+				built_in/echo.c \
+				built_in/env.c \
+				built_in/export.c \
+				built_in/pwd.c \
 				parser/tokenize_words.c \
 				parser/tokenize_utils.c \
 				parser/tokenize.c \
 				parser/expansion.c \
 				parser/expansion_char.c \
 				parser/expansion_utils.c \
-				#copy_env/copy_env.c \
-				#copy_env/env_utils.c \
+				copy_env/copy_env.c \
+				copy_env/env_utils.c \
+				copy_env/print_env.c \
 
 SRC			= $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ			= $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
