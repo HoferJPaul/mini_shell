@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 16:32:40 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/09 17:21:29 by phofer           ###   ########.fr       */
+/*   Updated: 2026/02/16 15:08:09 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	add_token(t_token **head, t_token *new)
 }
 
 //handles operator
-static int tokenize_operator(t_token **tokens, const char *str, size_t *i)
+static	int	tokenize_operator(t_token **tokens, const char *str, size_t *i)
 {
 	t_token_type	type;
 	size_t			len;
@@ -87,14 +87,12 @@ static int tokenize_operator(t_token **tokens, const char *str, size_t *i)
 	return (0);
 }
 
-
 int	tokenize_input(t_shell *mini, const char *input)
 {
 	size_t	i;
 
 	if (!input)
 		return (-1);
-
 	mini->tokens = NULL;
 	i = 0;
 	while (input[i])
@@ -109,7 +107,7 @@ int	tokenize_input(t_shell *mini, const char *input)
 		}
 		else if (tokenize_word(&mini->tokens, input, &i) != 0)
 		{
-			ft_putstr_fd("error: lex line\n", 2);
+			ft_putstr_fd("error: tokenization invalid\n", 2);
 			return (1);
 		}
 	}
