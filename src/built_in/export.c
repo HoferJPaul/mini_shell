@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:53:14 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/16 15:07:33 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/16 15:31:18 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ char *parse_val(char *var)
     return val;
 }
 
+// Set or update an environment variable; if no value is given, mark as exported.
 int export(t_env **env, char *var)
 {
     char *key;
