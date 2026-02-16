@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 16:19:14 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/10 13:16:59 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/16 14:34:50 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,24 @@ void	process_line(t_shell *mini, char *input)
 {
 	if (!tokenize_input(mini, input))
 		return ;
-	// expand_tokens();
-	// parse_tokens();
+	expand_tokens(mini);
+	//parse_tokens();
 }
 //assuming we already initialized env and env pointer in mini struct already points at created env.
-int setup_struct(t_shell *mini, char **envp, t_env *env)
+int setup_struct(t_shell *mini, char **envp)
 {
-	char *path_value;
+	//char *path_value;
 
-    if (!mini || !env)
+    if (!mini || !envp)
         return (0);
-	(void)envp;//we don't really need to get this as an argument if we already copied the envp to our copy.
-    mini->env = env;
+
+	//(void)envp;//we don't really need to get this as an argument if we already copied the envp to our copy.
+    //mini->env = envp; //broken :(
     mini->flag = 0;
     mini->g_exit_status = 0;
     mini->running = 1;
-    
+
+	/*
     path_value = env_get(mini->env, "PATH");
     if (path_value)
         mini->paths = ft_split(path_value, ':');
@@ -45,5 +47,6 @@ int setup_struct(t_shell *mini, char **envp, t_env *env)
     mini->cwd = getcwd(NULL, 0);
     if (!mini->cwd)
         return (0);
+		*/
     return (1);
 }

@@ -13,6 +13,11 @@ SRC_FILES	=	main.c \
 				parser/tokenize_words.c \
 				parser/tokenize_utils.c \
 				parser/tokenize.c \
+				parser/expansion.c \
+				parser/expansion_char.c \
+				parser/expansion_utils.c \
+				#copy_env/copy_env.c \
+				#copy_env/env_utils.c \
 
 SRC			= $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ			= $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
