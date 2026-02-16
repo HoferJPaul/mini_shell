@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/10 13:18:13 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/11 12:21:02 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,9 @@ typedef struct s_shell
 	t_token *tokens;
 } t_shell;
 
-extern volatile sig_atomic_t g_sigint_received;
 // =================== FUNCTIONS ============================
 
-int setup_struct(t_shell *mini, char **envp);
+int setup_struct(t_shell *mini, char **envp, t_env *env);
 void sigint_handler(int signo);
 void setup_signals(t_shell *mini);
 void ctrl_d(char *line);
@@ -96,4 +95,8 @@ char *env_get(t_env *env, char *key);
 void env_set(t_env **env, char *key, char *value);
 int env_size(t_env *env);
 char **env_to_array(t_env *env);
+void init_paths(t_env *env, t_shell *mini);
+void refresh_paths(t_shell *mini);
+void add_new_paths(t_shell *mini, char *new_path);
+
 #endif

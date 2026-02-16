@@ -6,7 +6,11 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 16:19:14 by phofer            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2026/02/16 14:34:50 by phofer           ###   ########.fr       */
+=======
+/*   Updated: 2026/02/10 14:34:09 by zgahrama         ###   ########.fr       */
+>>>>>>> c54ab973bdebf7373c0ab7786c3267a4960855ee
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +28,13 @@ void	process_line(t_shell *mini, char *input)
 //assuming we already initialized env and env pointer in mini struct already points at created env.
 int setup_struct(t_shell *mini, char **envp)
 {
+<<<<<<< HEAD
 	//char *path_value;
 
     if (!mini || !envp)
+=======
+    if (!mini || !env)
+>>>>>>> c54ab973bdebf7373c0ab7786c3267a4960855ee
         return (0);
 
 	//(void)envp;//we don't really need to get this as an argument if we already copied the envp to our copy.
@@ -34,6 +42,7 @@ int setup_struct(t_shell *mini, char **envp)
     mini->flag = 0;
     mini->g_exit_status = 0;
     mini->running = 1;
+<<<<<<< HEAD
 
 	/*
     path_value = env_get(mini->env, "PATH");
@@ -44,6 +53,9 @@ int setup_struct(t_shell *mini, char **envp)
 		//cleanup the initialized stuff(?)
     if (path_value && !mini->paths)
         return (0);
+=======
+	init_paths(env, mini);
+>>>>>>> c54ab973bdebf7373c0ab7786c3267a4960855ee
     mini->cwd = getcwd(NULL, 0);
     if (!mini->cwd)
         return (0);
