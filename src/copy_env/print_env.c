@@ -6,61 +6,92 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 16:37:48 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/13 16:59:37 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/16 13:01:52 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	swap_env_nodes(t_env *a, t_env *b)
+static int	count_env_nodes(t_env *env)
 {
-	char	*temp_key;
-	char	*temp_value;
-	int		temp_flag;
+	int		count;
+	t_env	*temp;
 
-	temp_key = a->key;
-	temp_value = a->value;
-	temp_flag = a->exported_flag;
-	a->key = b->key;
-	a->value = b->value;
-	a->exported_flag = b->exported_flag;
-	b->key = temp_key;
-	b->value = temp_value;
-	b->exported_flag = temp_flag;
-}
-
-t_env	*sort_env(t_env *env)
-{
-	t_env	*current;
-	t_env	*index;
-
-	if (!env)
-		return (NULL);
-	current = env;
-	while (current)
+	count = 0;
+	temp = env;
+	while (temp)
 	{
-		index = current->next;
-		while (index)
-		{
-			if (ft_strcmp(current->key, index->key) > 0)
-				swap_env_nodes(current, index);
-			index = index->next;
-		}
-		current = current->next;
+		count++;
+		temp = temp->next;
 	}
-	return (env);
+	return (count);
 }
+
+static t_env	**build_env_array(t_env *env, int count)
+{
+	t_env	**arr;
+	t_env	*temp;
+	int		i;
+
+	arr = malloc(sizeof(t_env *) * count);
+	if (!arr)
+		return (NULL);
+	temp = env;
+	i = 0;
+	while (temp)
+	{
+		arr[i] = temp;
+		temp = temp->next;
+		i++;
+	}
+	return (arr);
+}
+
+static void	sort_env_array(t_env **arr, int count)
+{
+	int		i;
+	int		j;
+	t_env	*temp;
+
+	i = 0;
+	while (i < count - 1)
+	{
+		j = 0;
+		while (j < count - i - 1)
+		{
+			if (ft_strcmp(arr[j]->key, arr[j + 1]->key) > 0)
+			{
+				temp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = temp;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
 void print_env(t_env *env)
 {
-    t_env *temp;
+	t_env	**arr;
+	int		count;
+	int		i;
 
-    temp = env;
-    while(temp)
-    {
-        if (temp->value)
-            printf("%s=%s\n", temp->key, temp->value);
-        else
-            printf("%s\n", temp->key);
-        temp = temp->next;
-    }
+	if (!env)
+		return ;
+	count = count_env_nodes(env);
+	arr = build_env_array(env, count);
+	if (!arr)
+		return ;
+	sort_env_array(arr, count);
+	i = 0;
+	while (i < count)
+	{
+		if (arr[i]->value)
+			printf("%s=%s\n", arr[i]->key, arr[i]->value);
+		else
+			printf("%s\n", arr[i]->key);
+		i++;
+	}
+	free(arr);
 }
