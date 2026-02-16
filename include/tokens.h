@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 18:50:47 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/09 17:31:05 by phofer           ###   ########.fr       */
+/*   Updated: 2026/02/16 14:45:30 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,17 @@
 # include "minishell.h"
 # include <stddef.h>
 # include <stdint.h>
+
+/*
+** Buffer context for dynamic string building during expansion.
+** Groups buffer pointer, length, and capacity to reduce parameter count.
+*/
+typedef struct s_buf_ctx
+{
+	char	*buf;
+	size_t	len;
+	size_t	cap;
+}	t_buf_ctx;
 
 typedef enum e_token_type
 {
@@ -39,7 +50,7 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
-	int				heredoc;
+	int				heredoc_no_expand;
 	struct s_token	*next;
 }	t_token;
 

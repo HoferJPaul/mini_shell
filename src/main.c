@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 17:06:52 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/11 13:41:41 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/16 15:26:04 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell mini;
 	t_env *env;
-	
+
 	memset(&mini, 0, sizeof(t_shell));
 	env = env_copy(envp);
-	
+
 	if (argc != 1)
 	{
 		ft_putstr_fd("Error: args forbidden", 2);
