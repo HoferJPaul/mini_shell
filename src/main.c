@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 17:06:52 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/16 15:26:04 by phofer           ###   ########.fr       */
+/*   Updated: 2026/02/16 16:07:15 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	}
 	(void)argv;
-	if (!setup_struct(&mini, envp, env))
+	if (!setup_struct(&mini, &env))
 		return (1);
 	setup_signals(&mini);
 	shell_loop(&mini);

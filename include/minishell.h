@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/16 15:38:36 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/16 15:59:11 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ typedef struct s_shell
 
 // =================== FUNCTIONS ============================
 void	process_line(t_shell *mini, char *input);
-int setup_struct(t_shell *mini, char **envp);
+int setup_struct(t_shell *mini, t_env **env);
 void sigint_handler(int signo);
 void setup_signals(t_shell *mini);
 void ctrl_d(char *line);
