@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/13 15:41:32 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/16 13:40:10 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void sigint_handler(int signo);
 void setup_signals(t_shell *mini);
 void ctrl_d(char *line);
 //================ ENV CREATION AND UTILS ===================
-t_env *create_env(char *key, char *value);
+t_env *create_env(char *key, char *value, int exported);
 t_env *env_from_string(char *str);
 t_env *env_copy(char **envp);
 char *env_get(t_env *env, char *key);
@@ -99,5 +99,6 @@ char **env_to_array(t_env *env);
 void init_paths(t_env *env, t_shell *mini);
 void refresh_paths(t_shell *mini);
 void add_new_paths(t_shell *mini, char *new_path);
+void print_env(t_env *env);
 
 #endif
