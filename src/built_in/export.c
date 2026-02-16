@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:53:14 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/16 15:31:18 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/16 16:19:53 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int export(t_env **env, char *var)
     val = parse_val(var);
     if (!key)
     {
-        print_env(env);
+        print_env(*env);
         free(key);
         free(val);
         return 1;
