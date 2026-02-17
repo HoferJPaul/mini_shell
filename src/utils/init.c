@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 16:19:14 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/16 16:05:52 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/17 16:46:35 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,24 @@
 //initiates parsing/tokenizing functions - located in ../src/parser
 void	process_line(t_shell *mini, char *input)
 {
-	if (!tokenize_input(mini, input))
+	if (tokenize_main(mini, input) != 0)
+	{
+		mini->g_exit_status = 2;
 		return ;
-	expand_tokens(mini);
-	//parse_tokens();
+	}
+	if (expand_main(mini) != 0)
+	{
+		mini->g_exit_status = 2;
+		return ;
+	}
+	// if (parse_main(mini) != 0)
+	// {
+	// 	mini->g_exit_status = 2;
+	// 	return ;
+	// }
+	//execute_main(mini);
 }
+
 //assuming we already initialized env and env pointer in mini struct already points at created env.
 int setup_struct(t_shell *mini, t_env **env)
 {

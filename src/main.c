@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 17:06:52 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/16 16:07:15 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/17 16:51:07 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void shell_loop(t_shell *mini)
 			add_history(input);
 			process_line(mini, input);
 		}
+		printf("TESTING: g_exit_status = %d\n", mini->g_exit_status);
 		free(input);
 	}
 }
