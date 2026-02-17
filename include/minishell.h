@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/16 16:15:01 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/17 16:56:22 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
 
-#include "../libft/libft.h"
+# include "../libft/libft.h"
+# include "command.h"
+
 /* ===================== C STANDARD ===================== */
 
 #include <stdlib.h> // malloc, free, getenv, exit
@@ -79,6 +81,7 @@ typedef struct s_shell
     int 			flag;
     int 			g_exit_status;
     int 			running;
+	t_command	*commands;
 	t_token *tokens;
 } t_shell;
 
@@ -89,6 +92,7 @@ void sigint_handler(int signo);
 void setup_signals(t_shell *mini);
 void ctrl_d(char *line);
 int export(t_env **env, char *var);
+
 //================ ENV CREATION AND UTILS ===================
 t_env *create_env(char *key, char *value, int exported);
 t_env *env_from_string(char *str);
@@ -101,6 +105,7 @@ void init_paths(t_env *env, t_shell *mini);
 void refresh_paths(t_shell *mini);
 void add_new_paths(t_shell *mini, char *new_path);
 void print_env(t_env *env);
+
 //==================CLEANUP===================================
 void free_array(char **arr);
 
