@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:53:52 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/18 15:45:52 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/18 16:09:03 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ static void remove_var(t_env **env, char *var)
         curr = next;
     }
 }
-//should return 0 on success and 1 on fail.
+// Removes one or more environment variables by name.
+// Returns 0 on success, 1 on failure (no arguments or invalid identifier).
 int unset(t_env **env, char **vars)
 {
     int i;
