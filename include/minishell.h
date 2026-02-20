@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/16 16:15:01 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/19 17:06:00 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,9 @@
 #include <readline/readline.h> // readline, rl_on_new_line,
                                // rl_replace_line, rl_redisplay
 #include <readline/history.h>  // add_history, rl_clear_history
-
+#include <limits.h>
 // =================== STRUCT ===============================
+#define EXIT_SIGNAL -42
 typedef struct s_env
 {
     char *key;
@@ -65,6 +66,7 @@ typedef struct s_env
     int   exported_flag;
     struct s_env *next;
 } t_env;
+
 
 extern volatile sig_atomic_t g_sigint_received;
 typedef struct s_token	t_token;
