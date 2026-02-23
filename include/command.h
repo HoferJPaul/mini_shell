@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 00:00:00 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/17 16:48:34 by phofer           ###   ########.fr       */
+/*   Updated: 2026/02/23 16:21:12 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,19 @@
 # include "tokens.h"
 # include "minishell.h"
 
+typedef struct s_shell	t_shell;
+typedef struct s_token	t_token;
+
 /*
 ** Redirection structure
-** Stores information about input/output redirections for a command
+** Stores reference to the redirect token and its target file token
+** No need to duplicate data - just point to existing tokens
 */
-
 typedef struct s_redirect
 {
-	t_token_type		type;		// T_REDIR_IN, T_REDIR_OUT, T_APPEND, T_HEREDOC
-	char				*file;		// Filename or heredoc delimiter
-	char				*heredoc_content;	// Content for heredoc (if applicable)
-	int					expand;		// 1 = expand variables in heredoc, 0 = don't
+	t_token				*redir_token;	// The redirect operator token (<, >, >>, <<)
+	t_token				*file_token;	// The filename/delimiter token
+	char				*heredoc_content;	// Content for heredoc (filled during execution)
 	struct s_redirect	*next;
 }	t_redirect;
 
@@ -41,11 +43,13 @@ typedef struct s_command
 	struct s_command	*next;		// Next command in pipeline
 }	t_command;
 
-/*
-** Parser functions
-*/
-int			parse_main(t_shell *mini);
+int			parse(t_shell *mini);
 void		free_commands(t_command *cmd);
 void		free_redirects(t_redirect *redir);
+t_command	*parse_pipeline(t_token *tokens);
+t_command	*init_command(void);
+t_redirect	*init_redirect(t_token *redir_token, t_token *file_token);
+char		**build_args_array(t_token *tokens);
+t_redirect	*parse_redirects(t_token *tokens);
 
 #endif

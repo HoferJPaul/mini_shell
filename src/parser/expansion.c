@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 15:37:41 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/16 16:57:39 by phofer           ###   ########.fr       */
+/*   Updated: 2026/02/23 16:05:54 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ static int	expand_single_token(t_token *current, t_token *prev, t_shell *mini)
 ** @param mini Shell structure containing token list
 ** @return     0 on success, 1 on error
 */
-int	expand_main(t_shell *mini)
+int	expand(t_shell *mini)
 {
 	t_token	*current;
 	t_token	*prev;
