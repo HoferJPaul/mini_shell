@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:54:21 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/20 11:29:26 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/23 14:48:02 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int  safe_atoi(char *str, long long *out)
 //If running in parent → terminate entire shell.
 
 // Exits the shell with optional exit code. Validates numeric argument and handles errors.
-int exit(char **argv, t_shell *mini)
+int ft_exit(char **argv, t_shell *mini)
 {
     long long num;
 
