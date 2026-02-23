@@ -6,22 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 00:00:00 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/17 17:03:07 by phofer           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "../include/minishell.h"
-#include "../include/tokens.h"
-#include "../include/command.h"
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   validate_syntax.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/16 00:00:00 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/16 00:00:00 by phofer           ###   ########.fr       */
+/*   Updated: 2026/02/23 16:12:08 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +14,11 @@
 #include "../include/tokens.h"
 #include "../include/command.h"
 
-/*
-** Checks if token is a redirection operator
-*/
+//Checks if token is a redirection operator
 static int	is_redirect(t_token_type type)
 {
 	return (type == T_REDIR_IN || type == T_REDIR_OUT
 		|| type == T_APPEND || type == T_HEREDOC);
-}
-
-/*
-** Checks if token is an operator (pipe or redirect)
-*/
-static int	is_operator_token(t_token_type type)
-{
-	return (type == T_PIPE || is_redirect(type));
 }
 
 /*
@@ -115,7 +90,7 @@ int	validate_syntax(t_token *tokens)
 ** @param mini Shell structure containing tokens
 ** @return     0 on success, 1 on error
 */
-int	parse_main(t_shell *mini)
+int	parse(t_shell *mini)
 {
 	if (!mini || !mini->tokens)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/17 16:56:22 by phofer           ###   ########.fr       */
+/*   Updated: 2026/02/23 17:01:27 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,9 @@ void print_env(t_env *env);
 
 //==================CLEANUP===================================
 void free_array(char **arr);
+
+//================TESTING================================
+void	print_tokens_debug(t_token *tokens);
+void print_commands_shell_format(t_command *commands);
 
 #endif
