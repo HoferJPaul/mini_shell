@@ -16,6 +16,8 @@ SRC_FILES	=	main.c \
 				built_in/env.c \
 				built_in/export.c \
 				built_in/pwd.c \
+				built_in/exit.c \
+				built_in/unset.c \
 				parser/tokenize_words.c \
 				parser/tokenize_utils.c \
 				parser/tokenize.c \
@@ -25,6 +27,7 @@ SRC_FILES	=	main.c \
 				copy_env/copy_env.c \
 				copy_env/env_utils.c \
 				copy_env/print_env.c \
+				execution/exec.c \
 
 SRC			= $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ			= $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))
