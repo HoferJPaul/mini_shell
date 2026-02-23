@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:05:48 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/16 15:05:04 by phofer           ###   ########.fr       */
+/*   Updated: 2026/02/23 16:11:11 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,11 @@ char	*get_special_var(char name, t_shell *mini);
 
 //============================= Tokenizer ================================
 
-int		tokenize_input(t_shell *mini, const char *input);
+int		tokenize(t_shell *mini, const char *input);
 t_token	*new_token(t_token_type type, const char *str, size_t len);
 void	add_token(t_token **head, t_token *new);
 int		tokenize_word(t_token **tokens, const char *str, size_t *i);
-int	expand_tokens(t_shell *mini);
+int		expand(t_shell *mini);
 
 //utils
 void	skip_whitespaces(const char *str, size_t *i);
