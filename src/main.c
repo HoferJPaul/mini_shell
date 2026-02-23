@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 17:06:52 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/16 16:07:15 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/23 17:04:44 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void shell_loop(t_shell *mini)
 		{
 			add_history(input);
 			process_line(mini, input);
+			execution(mini);
 		}
 		free(input);
 	}
