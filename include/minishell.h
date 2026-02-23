@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/23 14:48:08 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/23 17:05:20 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int setup_struct(t_shell *mini, t_env **env);
 void sigint_handler(int signo);
 void setup_signals(t_shell *mini);
 void ctrl_d(char *line);
+int execution(t_shell *mini);
 //================= BUILTINS =================================
 int export(t_env **env, char *var);
 int cd(t_shell *mini, char **argv);
