@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:52:09 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/23 17:15:12 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/24 14:28:43 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void echo(char *str, int flag)
     else//-n flag caught
     {
         printf("%s", str);
+        printf("%%");
     }
 }
 //my approach, should double check when parsing is ready
