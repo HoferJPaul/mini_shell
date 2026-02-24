@@ -6,22 +6,36 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:52:09 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/24 14:28:43 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/24 18:45:52 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-//should be with -n option, there should be a flag checker in parser
-void echo(char *str, int flag)
+#include "../../include/tokens.h"
+// should be with -n option, there should be a flag checker in parser
+void echo(t_token *tokens)
 {
-    if(flag == 0)//no -n flag
+    t_token *curr;
+    int flag;
+
+    curr = tokens;
+    flag = 0;
+    if (ft_strncmp(curr->value, "-n", ft_strlen(curr->value)) == 0)
     {
-        printf("%s\n", str);
+        flag = 1;
+        curr = curr->next;
     }
-    else//-n flag caught
+    while (curr->next)
     {
-        printf("%s", str);
+        printf("%s", curr->value);
+        if (curr->next)
+            printf(" ");
+        curr = curr->next;
+    }
+    printf("%s", curr->value);
+    if (flag == 0)
+        printf("\n");
+    else
         printf("%%");
-    }
 }
-//my approach, should double check when parsing is ready
+// my approach, should double check when parsing is ready

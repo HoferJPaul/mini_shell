@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/23 17:05:20 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/24 18:43:09 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int execution(t_shell *mini);
 //================= BUILTINS =================================
 int export(t_env **env, char *var);
 int cd(t_shell *mini, char **argv);
-void echo(char *str, int flag);
+void echo(t_token *tokens);
 void env(t_env *env);
 int ft_exit(char **argv, t_shell *mini);
 void pwd(t_shell *mini);
