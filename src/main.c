@@ -6,11 +6,13 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 17:06:52 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/23 17:04:44 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/25 17:07:31 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include "../include/debug.h"
+
 
 volatile sig_atomic_t g_sigint_received = 0;
 
@@ -27,7 +29,9 @@ static void shell_loop(t_shell *mini)
 			add_history(input);
 			process_line(mini, input);
 			execution(mini);
+			//process_line_debug(mini, input);
 		}
+		printf("TESTING: g_exit_status = %d\n", mini->g_exit_status); //for testing only
 		free(input);
 	}
 }
