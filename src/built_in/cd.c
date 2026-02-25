@@ -6,23 +6,20 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:52:22 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/13 15:41:49 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/25 13:18:43 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include "../../include/tokens.h"
 
-
-static char *cd_resolve_target(t_shell *mini, char **argv)
+static char *cd_resolve_target(t_shell *mini, t_token *tokens)
 {
     char *target;
+    t_token *curr;
 
-    if (argv[2] && argv[3])
-    {
-        printf("cd: too many arguments\n");
-        return NULL;
-    }
-    if (!argv[2])
+    curr = tokens;
+    if (!curr || !curr->value)
     {
         target = env_get(mini->env, "HOME");
         if (!target)
@@ -32,7 +29,12 @@ static char *cd_resolve_target(t_shell *mini, char **argv)
         }
         return target;
     }
-    else if (ft_strcmp(argv[2], "-") == 0)
+    if (curr->next != NULL)
+    {
+        printf("cd: too many arguments\n");
+        return NULL;
+    }
+    else if (ft_strcmp(curr->value, "-") == 0)
     {
         target = env_get(mini->env, "OLDPWD");
         if (!target)
@@ -42,7 +44,7 @@ static char *cd_resolve_target(t_shell *mini, char **argv)
         }
         return(target);
     }
-    return (argv[2]);
+    return (curr->value);
 }
 
 static int cd_change_directory(char *target)
@@ -79,12 +81,12 @@ static void cd_update_pwd_vars(t_shell *mini, char *oldpwd)
 ** 3) chdir() to target; on failure, print error and keep cwd unchanged.
 ** 4) On success, update OLDPWD/PWD in env and mini->cwd.
 */
-int cd(t_shell *mini, char **argv)
+int cd(t_shell *mini, t_token *tokens)
 {
     char	*target;
     char	*old_pwd;
 
-    target = cd_resolve_target(mini, argv);
+    target = cd_resolve_target(mini, tokens);
     if (!target)
         return (mini->g_exit_status = 1);
     old_pwd = getcwd(NULL, 0);

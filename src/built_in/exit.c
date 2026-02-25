@@ -6,11 +6,12 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:54:21 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/23 14:48:02 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/25 16:27:00 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include "../../include/tokens.h"
 //checks the if the string is valid. returns 1 on error, 0 on success.
 static int  check_str(char *str)
 {
@@ -58,23 +59,24 @@ static int  safe_atoi(char *str, long long *out)
 //If running in parent → terminate entire shell.
 
 // Exits the shell with optional exit code. Validates numeric argument and handles errors.
-int ft_exit(char **argv, t_shell *mini)
+int ft_exit(t_shell *mini, t_token *tokens)
 {
     long long num;
-
-    ft_putstr_fd("exit\n", 2);
-    if (!argv[1])
+    t_token *curr;
+    
+    curr = tokens;
+    if (!curr)
         return (EXIT_SIGNAL);
-    if (argv[2])
+    if (curr->next)
     {
         ft_putstr_fd("exit: too many arguments\n", 2);
         mini->g_exit_status = 1;
         return (1);
     }
-    if (check_str(argv[1]) || safe_atoi(argv[1], &num))
+    if (check_str(curr->value) || safe_atoi(curr->value, &num))
     {
         ft_putstr_fd("exit: ", 2);
-        ft_putstr_fd(argv[1], 2);
+        ft_putstr_fd(curr->value, 2);
         ft_putstr_fd(": numeric argument required\n", 2);
         mini->g_exit_status = 255;
         return (EXIT_SIGNAL);

@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/24 18:43:09 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/25 16:20:22 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,13 @@ void setup_signals(t_shell *mini);
 void ctrl_d(char *line);
 int execution(t_shell *mini);
 //================= BUILTINS =================================
-int export(t_env **env, char *var);
-int cd(t_shell *mini, char **argv);
+int export(t_env **env, t_token *tokens);
+int cd(t_shell *mini, t_token *tokens);
 void echo(t_token *tokens);
 void env(t_env *env);
-int ft_exit(char **argv, t_shell *mini);
+int ft_exit(t_shell *mini, t_token *tokens);
 void pwd(t_shell *mini);
-int unset(t_env **env, char **vars);
+int unset(t_env **env, t_token *tokens);
 //================ ENV CREATION AND UTILS ===================
 t_env *create_env(char *key, char *value, int exported);
 t_env *env_from_string(char *str);
