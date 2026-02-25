@@ -6,14 +6,16 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/25 16:20:22 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/25 17:06:37 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
 
-#include "../libft/libft.h"
+# include "../libft/libft.h"
+# include "command.h"
+
 /* ===================== C STANDARD ===================== */
 
 #include <stdlib.h> // malloc, free, getenv, exit
@@ -81,6 +83,7 @@ typedef struct s_shell
     int 			flag;
     int 			g_exit_status;
     int 			running;
+	t_command	*commands;
 	t_token *tokens;
 } t_shell;
 
@@ -111,7 +114,12 @@ void init_paths(t_env *env, t_shell *mini);
 void refresh_paths(t_shell *mini);
 void add_new_paths(t_shell *mini, char *new_path);
 void print_env(t_env *env);
+
 //==================CLEANUP===================================
 void free_array(char **arr);
+
+//================TESTING================================
+void	print_tokens_debug(t_token *tokens);
+void print_commands_shell_format(t_command *commands);
 
 #endif
