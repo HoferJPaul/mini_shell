@@ -6,13 +6,13 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:52:09 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/24 18:45:52 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/24 18:50:35 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/tokens.h"
-// should be with -n option, there should be a flag checker in parser
+
 void echo(t_token *tokens)
 {
     t_token *curr;

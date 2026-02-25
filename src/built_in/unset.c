@@ -6,11 +6,13 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:53:52 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/18 16:09:03 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/25 16:14:12 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include "../../include/tokens.h"
+
 static int validate_var(char *var)
 {
      int i;
@@ -75,31 +77,33 @@ static void remove_var(t_env **env, char *var)
 }
 // Removes one or more environment variables by name.
 // Returns 0 on success, 1 on failure (no arguments or invalid identifier).
-int unset(t_env **env, char **vars)
+int unset(t_env **env, t_token *tokens)
 {
     int i;
-
-    if(!vars)
+    t_token *curr;
+    
+    curr = tokens;
+    if(!curr)
     {
         ft_putstr_fd("unset: no arguments\n", 2);
         return 1;//fail
     }
     i = 0;
-    while(vars[i])
+    while(curr)
     {
-        if(!validate_var(vars[i]))
+        if(!validate_var(curr->value))
         {
             ft_putstr_fd("unset: not a valid identifier\n", 2);
-            i++;
+            curr = curr->next;
             continue;
         }
-        if(!check_var_exists(env, vars[i]))
+        if(!check_var_exists(env, curr->value))
         {
-            i++;
+            curr = curr->next;
             continue;
         }
-        remove_var(env, vars[i]);
-        i++;
+        remove_var(env, curr->value);
+        curr = curr->next;
     }
     return 0;//success
 }
