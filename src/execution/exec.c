@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:34:28 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/25 16:19:51 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/02/26 17:54:35 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,8 @@ int execution(t_shell *mini)
 {
     if (check_builtins(mini) == 1)
         printf("gibberish\n");
+    //needs checking of tokens(do they pipe, is there multiple commands without pipe etc)
+    exec_external(mini, mini->tokens);
+    
     return 0;
 }
