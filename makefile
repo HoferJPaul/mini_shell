@@ -32,6 +32,7 @@ SRC_FILES	=	main.c \
 				copy_env/env_utils.c \
 				copy_env/print_env.c \
 				execution/exec.c \
+				execution/external_commands.c \
 				tests/test_print.c \
 
 SRC			= $(addprefix $(SRC_DIR)/, $(SRC_FILES))
