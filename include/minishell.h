@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/27 16:37:45 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/02 14:31:48 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_shell
     int 			flag;
     int 			g_exit_status;
     int 			running;
+    int             has_pipe;//set this in parsing?
 	t_command	*commands;
 	t_token *tokens;
 } t_shell;
@@ -93,15 +94,18 @@ int setup_struct(t_shell *mini, t_env **env);
 void sigint_handler(int signo);
 void setup_signals(t_shell *mini);
 void ctrl_d(char *line);
+// =================== EXECUTION =====================
 int execution(t_shell *mini);
 void exec_external(t_shell *mini, t_token *tokens);
+int exec_builtin_child(t_shell *mini);
+int exec_builtin_parent(t_shell *mini);
 //================= BUILTINS =================================
 int export(t_env **env, t_token *tokens);
 int cd(t_shell *mini, t_token *tokens);
-void echo(t_token *tokens);
-void env(t_env *env);
+int echo(t_token *tokens);
+int env(t_env *env);
 int ft_exit(t_shell *mini, t_token *tokens);
-void pwd(t_shell *mini);
+int pwd(t_shell *mini);
 int unset(t_env **env, t_token *tokens);
 //================ ENV CREATION AND UTILS ===================
 t_env *create_env(char *key, char *value, int exported);
