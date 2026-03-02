@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:34:28 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/02 14:38:50 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/02 17:38:24 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,24 @@ static int	check_builtin(t_shell *mini)
 	return (1);
 }
 
+static int	execution_pipe(t_shell *mini)
+{
+	t_command	*curr;
+	char		*std_output;
+	int			fd;
+	pid_t		p1;
+
+	fd = malloc(2 * sizeof(int));//free after finished using
+	pipe(fd);
+	p1 = fork();
+	curr = mini->commands;
+	while (curr)
+	{
+		if (check_builtin(mini) == 0)
+			curr = curr->next;
+	}
+}
+
 /*
 ** Executes one command.
 **
@@ -52,16 +70,15 @@ static int	check_builtin(t_shell *mini)
 **
 ** The final result is stored in mini->g_exit_status ($?).
 */
-
 int	execution(t_shell *mini)
 {
 	pid_t	p;
 	int		status;
 
-	if (check_builtin(mini) == 0 && mini->has_pipe == 0)
+	if (mini->commands->redirects != NULL) // there is pipe
+		return (execution_pipe(mini));
+	if (check_builtin(mini) == 0)
 		return (exec_builtin_parent(mini));
-	else if(check_builtin(mini) == 0 && mini->has_pipe == 1)
-		return(exec_builtin_child(mini));
 	p = fork();
 	if (p < 0)
 	{
