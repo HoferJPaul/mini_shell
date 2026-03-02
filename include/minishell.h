@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/02 17:20:44 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/02 19:23:55 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,16 +97,16 @@ void ctrl_d(char *line);
 // =================== EXECUTION =====================
 int execution(t_shell *mini);
 void exec_external(t_shell *mini, t_token *tokens);
-int exec_builtin_child(t_shell *mini);
+int exec_builtin_child(t_shell *mini, t_command *command);
 int exec_builtin_parent(t_shell *mini);
 //================= BUILTINS =================================
-int export(t_env **env, t_token *tokens);
-int cd(t_shell *mini, t_token *tokens);
-int echo(t_token *tokens);
+int export(t_env **env, char **command);
+int cd(t_shell *mini, char **command);
+int echo(char **command);
 int env(t_env *env);
-int ft_exit(t_shell *mini, t_token *tokens);
+int ft_exit(t_shell *mini, char **command);
 int pwd(t_shell *mini);
-int unset(t_env **env, t_token *tokens);
+int unset(t_env **env, char **command);
 //================ ENV CREATION AND UTILS ===================
 t_env *create_env(char *key, char *value, int exported);
 t_env *env_from_string(char *str);

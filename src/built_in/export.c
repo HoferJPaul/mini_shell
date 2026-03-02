@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:53:14 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/25 16:08:19 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/02 19:06:32 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,32 +86,29 @@ char *parse_val(char *var)
     val[idx] = '\0';
     return val;
 }
-static int too_many_arg(t_token *tokens)
+static int too_many_arg(char **command)
 {
-    t_token *curr;
-    
-    curr = tokens;
-    if(!curr->next)
+    if(!command[2])
         return 0;
     printf("export: too many arguments\n");
     return 1;
 }
 
 // Set or update an environment variable; if no value is given, mark as exported.
-int export(t_env **env, t_token *tokens)
+int export(t_env **env, char **command)
 {
     char *key;
     char *val;
     
-    if (!tokens || !tokens->value)
+    if (!command[1])
     {
         print_env(*env);
         return 1;
     }
-    if(too_many_arg(tokens) == 1)
+    if(too_many_arg(command) == 1)
         return 1;//unsure what kind of error i should set here
-    key = parse_key(tokens->value);
-    val = parse_val(tokens->value);
+    key = parse_key(command[1]);
+    val = parse_val(command[1]);
     if (!val)
     {
         env_set(env, key, NULL, 1);

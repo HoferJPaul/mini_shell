@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:53:52 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/25 16:14:12 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/02 19:12:09 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,33 +77,31 @@ static void remove_var(t_env **env, char *var)
 }
 // Removes one or more environment variables by name.
 // Returns 0 on success, 1 on failure (no arguments or invalid identifier).
-int unset(t_env **env, t_token *tokens)
+int unset(t_env **env, char **command)
 {
     int i;
-    t_token *curr;
     
-    curr = tokens;
-    if(!curr)
+    if(!command[1])
     {
         ft_putstr_fd("unset: no arguments\n", 2);
         return 1;//fail
     }
-    i = 0;
-    while(curr)
+    i = 1;//index 0 is unset command
+    while(command[i])
     {
-        if(!validate_var(curr->value))
+        if(!validate_var(command[i]))
         {
             ft_putstr_fd("unset: not a valid identifier\n", 2);
-            curr = curr->next;
+            i++;
             continue;
         }
-        if(!check_var_exists(env, curr->value))
+        if(!check_var_exists(env, command[i]))
         {
-            curr = curr->next;
+            i++;
             continue;
         }
-        remove_var(env, curr->value);
-        curr = curr->next;
+        remove_var(env, command[i]);
+        i++;
     }
     return 0;//success
 }
