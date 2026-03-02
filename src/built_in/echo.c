@@ -6,26 +6,26 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:52:09 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/02 15:51:13 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/02 19:19:21 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/tokens.h"
 
-int echo(t_token *tokens)
+int echo(char **command)
 {
-    t_token *curr;
     int flag;
+    int i;
 
-    curr = tokens;
+    i = 1;
     flag = 0;
-    if (curr && ft_strcmp(curr->value, "-n") == 0)
+    if (command[i] && ft_strcmp(command[i], "-n") == 0)
     {
         flag = 1;
-        curr = curr->next;
+        i++;
     }
-    if(!curr)
+    if(!command[1])
     {
         if(flag == 1)
             printf("");
@@ -33,14 +33,14 @@ int echo(t_token *tokens)
             printf("\n");
         return 0;
     }
-    while (curr->next)
+    while (command[i+1])
     {
-        printf("%s", curr->value);
-        if (curr->next)
+        printf("%s", command[i]);
+        if (command[i+1])
             printf(" ");
-        curr = curr->next;
+        i++;
     }
-    printf("%s", curr->value);
+    printf("%s", command[i]);
     if (flag == 0)
         printf("\n");
     else
