@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:52:09 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/02 15:18:31 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/02 15:51:13 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,18 @@ int echo(t_token *tokens)
 
     curr = tokens;
     flag = 0;
-    printf("inside echo function\n");
-    if (ft_strncmp(curr->value, "-n", ft_strlen(curr->value)) == 0)
+    if (curr && ft_strcmp(curr->value, "-n") == 0)
     {
         flag = 1;
         curr = curr->next;
+    }
+    if(!curr)
+    {
+        if(flag == 1)
+            printf("");
+        else
+            printf("\n");
+        return 0;
     }
     while (curr->next)
     {
