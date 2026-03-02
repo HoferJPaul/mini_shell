@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:34:28 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/02 14:38:50 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/02 17:29:00 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,17 @@ static int	check_builtin(t_shell *mini)
 	else if (ft_strcmp(curr->value, "exit") == 0)
 		return (0);
 	return (1);
+}
+/*
+** Checks if command is a single builtin with no pipes
+*/
+static int	is_single_builtin(t_command *commands)
+{
+	if (!commands || commands->next)
+		return (0);
+	if (!commands->args || !commands->args[0])
+		return (0);
+	return (check_builtin(commands->args[0]));
 }
 
 /*
@@ -79,4 +90,29 @@ int	execution(t_shell *mini)
 	else if (WIFSIGNALED(status))
 		mini->g_exit_status = 128 + WTERMSIG(status);
 	return (0);
+}
+
+/*
+** Main execution entry point
+** Handles heredocs, then executes pipeline or single builtin
+**
+** @param mini Shell structure
+** @return     0 on success, 1 on error
+*/
+int	execute(t_shell *mini)
+{
+	int	status;
+
+	if (!mini || !mini->commands)
+		return (0);
+	//todo
+	// if (process_heredocs(mini->commands) != 0)
+	// 	return (1);
+	if (is_single_builtin(mini->commands))
+	{
+		status = execute_single_builtin(mini, mini->commands);
+		mini->g_exit_status = status;
+		return (0);
+	}
+	return (execute_pipeline(mini, mini->commands));
 }
