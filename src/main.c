@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 17:06:52 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/25 17:07:31 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/02 15:23:20 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static void shell_loop(t_shell *mini)
 		{
 			add_history(input);
 			process_line(mini, input);
-			execution(mini);
 			//process_line_debug(mini, input);
+			execution(mini);
 		}
 		printf("TESTING: g_exit_status = %d\n", mini->g_exit_status); //for testing only
 		free(input);
