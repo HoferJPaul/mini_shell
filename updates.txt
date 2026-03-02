@@ -120,3 +120,12 @@ update 27.02 17.22 by zgahrama
 	-succesfully runs the external commands on child process.
 	**might need more testing.
 }
+update 02.03 15.27 by zgahrama
+{
+	-created exec_builtin file.
+	-handling builtin execution with pipes.
+	-execution function handles builtin called in pipes with child process.
+	-updated some builtins to return int to give the exit status.
+	-tested, should compile and work properly.
+	**needs more testing after pipes are finished.
+}
