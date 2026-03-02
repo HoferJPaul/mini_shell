@@ -6,58 +6,32 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:34:28 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/27 17:18:17 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/02 14:38:50 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/tokens.h"
 
-static int	check_builtins(t_shell *mini)
+static int	check_builtin(t_shell *mini)
 {
 	t_token	*curr;
 
 	curr = mini->tokens;
-	if (ft_strncmp(curr->value, "echo", ft_strlen(curr->value)) == 0)
-	{
-		curr = curr->next;
-		echo(curr); //" character doesn't get removed in tokenization.
+	if (ft_strcmp(curr->value, "cd") == 0)
 		return (0);
-	}
-	else if (ft_strncmp(curr->value, "env", ft_strlen(curr->value)) == 0)
-	{
-		env(mini->env);
+	else if (ft_strcmp(curr->value, "env") == 0)
 		return (0);
-	}
-	else if (ft_strncmp(curr->value, "pwd", ft_strlen(curr->value)) == 0)
-	{
-		pwd(mini);
+	else if (ft_strcmp(curr->value, "pwd") == 0)
 		return (0);
-	}
-	else if (ft_strncmp(curr->value, "cd", ft_strlen(curr->value)) == 0)
-	{
-		curr = curr->next;
-		cd(mini, curr);
+	else if (ft_strcmp(curr->value, "echo") == 0)
+		return (0); //" character doesn't get removed in tokenization.
+	else if (ft_strcmp(curr->value, "export") == 0)
 		return (0);
-	}
-	else if (ft_strncmp(curr->value, "export", ft_strlen(curr->value)) == 0)
-	{
-		curr = curr->next;
-		export(&mini->env, curr);
+	else if (ft_strcmp(curr->value, "unset") == 0)
 		return (0);
-	}
-	else if (ft_strncmp(curr->value, "unset", ft_strlen(curr->value)) == 0)
-	{
-		curr = curr->next;
-		unset(&mini->env, curr);
+	else if (ft_strcmp(curr->value, "exit") == 0)
 		return (0);
-	}
-	else if (ft_strncmp(curr->value, "exit", ft_strlen(curr->value)) == 0)
-	{
-		curr = curr->next;
-		ft_exit(mini, curr);
-		return (0);
-	}
 	return (1);
 }
 
@@ -78,28 +52,31 @@ static int	check_builtins(t_shell *mini)
 **
 ** The final result is stored in mini->g_exit_status ($?).
 */
-int execution(t_shell *mini)
-{
-    pid_t p;
-    int status;
 
-    if (check_builtins(mini) == 0)
-        return (0);
-    p = fork();
-    if (p < 0)
-    {
-        perror("fork");
-        return (1);
-    }
-    if (p == 0)
-    {
-        exec_external(mini, mini->tokens);
-        exit(1);//backup exit
-    }
-    waitpid(p, &status, 0);
-    if (WIFEXITED(status))
-        mini->g_exit_status = WEXITSTATUS(status);
-    else if (WIFSIGNALED(status))
-        mini->g_exit_status = 128 + WTERMSIG(status);
-    return (0);
+int	execution(t_shell *mini)
+{
+	pid_t	p;
+	int		status;
+
+	if (check_builtin(mini) == 0 && mini->has_pipe == 0)
+		return (exec_builtin_parent(mini));
+	else if(check_builtin(mini) == 0 && mini->has_pipe == 1)
+		return(exec_builtin_child(mini));
+	p = fork();
+	if (p < 0)
+	{
+		perror("fork");
+		return (1);
+	}
+	if (p == 0)
+	{
+		exec_external(mini, mini->tokens);
+		exit(1); // backup exit
+	}
+	waitpid(p, &status, 0);
+	if (WIFEXITED(status))
+		mini->g_exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		mini->g_exit_status = 128 + WTERMSIG(status);
+	return (0);
 }

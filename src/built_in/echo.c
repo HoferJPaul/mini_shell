@@ -6,14 +6,14 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:52:09 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/24 18:50:35 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/02 14:29:42 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/tokens.h"
 
-void echo(t_token *tokens)
+int echo(t_token *tokens)
 {
     t_token *curr;
     int flag;
@@ -37,5 +37,6 @@ void echo(t_token *tokens)
         printf("\n");
     else
         printf("%%");
+    return 0;
 }
 // my approach, should double check when parsing is ready

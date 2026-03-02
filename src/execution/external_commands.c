@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 14:11:00 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/27 17:06:50 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/02 11:43:50 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,30 +39,30 @@ char	*find_command_path(t_shell *mini, char *cmd)
 	free_array(dirs);
 	return (NULL);
 }
-char **tokens_to_argv(t_token *tokens)
+
+char	**tokens_to_argv(t_token *tokens)
 {
-    char **argv;
-    int count = 0;
-    int i = 0;
-    t_token *tmp = tokens;
+	char	**argv;
+	int		count;
+	int		i;
+	t_token	*tmp;
 
-    while (tmp)
-    {
-        count++;
-        tmp = tmp->next;
-    }
-
-    argv = malloc(sizeof(char *) * (count + 1));
-
-    while (tokens)
-    {
-        argv[i++] = tokens->value;
-        tokens = tokens->next;
-    }
-
-    argv[i] = NULL;
-
-    return argv;
+	count = 0;
+	i = 0;
+	tmp = tokens;
+	while (tmp)
+	{
+		count++;
+		tmp = tmp->next;
+	}
+	argv = malloc(sizeof(char *) * (count + 1));
+	while (tokens)
+	{
+		argv[i++] = tokens->value;
+		tokens = tokens->next;
+	}
+	argv[i] = NULL;
+	return (argv);
 }
 // just executing it as it is, doesn't check if theres a pipe,
 //	assumes already being called in the child process
@@ -70,11 +70,11 @@ void	exec_external(t_shell *mini, t_token *tokens)
 {
 	char	*path;
 	t_token	*curr;
-	char **arg;
+	char	**arg;
 
 	arg = tokens_to_argv(tokens);
 	curr = tokens;
-	if (ft_strchr(curr->value, '/'))//for running with path value
+	if (ft_strchr(curr->value, '/')) // for running with path value
 		path = curr->value;
 	else
 		path = find_command_path(mini, curr->value);
