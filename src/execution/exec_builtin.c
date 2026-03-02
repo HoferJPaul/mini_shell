@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 14:01:13 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/02 14:37:58 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/02 15:13:09 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int exec_builtin_child(t_shell *mini)
 		exit(run_builtin(mini));
 	}
 	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
+	if (WIFEXITED(status))//Lower 7 bits → signal number: If those bits are 0 → normal exit: Upper 8 bits → exit code
 		mini->g_exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 		mini->g_exit_status = 128 + WTERMSIG(status);
