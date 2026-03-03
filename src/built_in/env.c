@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:55:19 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/02 14:35:44 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/03 15:02:44 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ int	env(t_env *env)
 	{
 		if (cp->value)
 			printf("%s=%s\n", cp->key, cp->value);
-		else
-			printf("%s\n", cp->key);
 		cp = cp->next;
 	}
 	return (0);

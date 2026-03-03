@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/02 19:23:55 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/03 14:37:49 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,11 @@ void setup_signals(t_shell *mini);
 void ctrl_d(char *line);
 // =================== EXECUTION =====================
 int execution(t_shell *mini);
-void exec_external(t_shell *mini, t_token *tokens);
-int exec_builtin_child(t_shell *mini, t_command *command);
-int exec_builtin_parent(t_shell *mini);
+void exec_external(t_shell *mini, char **command);
+//int exec_builtin_child(t_shell *mini, t_command *command);
+int	check_builtin(char *cmd);
+int exec_builtin(t_shell *mini, char **command);
+int	execution_pipe(t_shell *mini);
 //================= BUILTINS =================================
 int export(t_env **env, char **command);
 int cd(t_shell *mini, char **command);
