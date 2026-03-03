@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:52:22 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/02 18:33:56 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/03 15:05:40 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char *cd_resolve_target(t_shell *mini, char **command)
         printf("cd: too many arguments\n");
         return NULL;
     }
-    else if (ft_strcmp(command[2], "-") == 0)
+    else if (ft_strcmp(command[1], "-") == 0)
     {
         target = env_get(mini->env, "OLDPWD");
         if (!target)
@@ -55,7 +55,7 @@ static int cd_change_directory(char *target)
     return (0);
 }
 
-static void cd_update_pwd_vars(t_shell *mini, char *oldpwd)
+static int cd_update_pwd_vars(t_shell *mini, char *oldpwd)
 {
     char *new_pwd;
 
@@ -63,7 +63,7 @@ static void cd_update_pwd_vars(t_shell *mini, char *oldpwd)
     if (!new_pwd)
     {
         perror("cd");
-        return;
+        return 1;
     }
     env_set(&mini->env, "OLDPWD", oldpwd, 0);
     env_set(&mini->env, "PWD", new_pwd, 0);
@@ -71,6 +71,7 @@ static void cd_update_pwd_vars(t_shell *mini, char *oldpwd)
     mini->cwd = ft_strdup(new_pwd);
     free(new_pwd);
     free(oldpwd);
+    return 0;
 }
 /*
 ** cd builtin:
@@ -98,6 +99,10 @@ int cd(t_shell *mini, char **command)
         free(old_pwd);
         return (mini->g_exit_status = 1);
     }
-    cd_update_pwd_vars(mini, old_pwd);
+    if(cd_update_pwd_vars(mini, old_pwd) == 1)
+    {
+        free(old_pwd);
+        return(mini->g_exit_status = 1);
+    }
     return (mini->g_exit_status = 0);
 }

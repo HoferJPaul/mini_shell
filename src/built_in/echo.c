@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:52:09 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/02 19:19:21 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/03 14:52:22 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int echo(char **command)
 
     i = 1;
     flag = 0;
-    if (command[i] && ft_strcmp(command[i], "-n") == 0)
+    if (command[i] && ft_strcmp(command[i], "-n") == 0)//shouldn't only work with -n but also -n -n... or -nnnnn
     {
         flag = 1;
         i++;
@@ -43,8 +43,6 @@ int echo(char **command)
     printf("%s", command[i]);
     if (flag == 0)
         printf("\n");
-    else
-        printf("%%");
     return 0;
 }
 // my approach, should double check when parsing is ready
