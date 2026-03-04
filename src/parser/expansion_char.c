@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 14:46:59 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/16 15:01:09 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/04 16:27:20 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*get_var_value(const char *name, size_t len, t_shell *mini)
 	var_name = ft_substr(name, 0, len);
 	if (!var_name)
 		return (NULL);
-	value = getenv(var_name);
+	value = env_get(mini->env, var_name); /* use shell env, not process env */
 	free(var_name);
 	if (!value)
 		return (ft_strdup(""));

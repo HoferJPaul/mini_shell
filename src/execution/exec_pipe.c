@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 14:12:09 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/03 14:33:41 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/04 15:27:48 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	extract_status(int status)
 static void	exec_pipe_child(t_shell *mini, t_command *curr, int prev_fd,
 		int fd[2])
 {
+	/* wire up pipe fds BEFORE applying redirections so that explicit
+	   redirections (< or >) can override the pipe ends if needed */
 	if (prev_fd != -1)
 		dup2(prev_fd, STDIN_FILENO);
 	if (curr->next)
@@ -51,10 +53,13 @@ static void	exec_pipe_child(t_shell *mini, t_command *curr, int prev_fd,
 		close(fd[0]);
 		close(fd[1]);
 	}
+	/* apply file redirections – they override the pipe ends when present */
+	if (apply_redirections(curr) == -1)
+		exit(1);
 	if (check_builtin(curr->args[0]) == 0)
 		exit(exec_builtin(mini, curr->args));
 	exec_external(mini, curr->args);
-	perror("execve");
+	/* exec_external never returns on success; reaching here means failure */
 	exit(127);
 }
 
@@ -80,7 +85,10 @@ static int	execute_pipe_cmds(t_shell *mini, pid_t *pid, pid_t *last_pid)
 		if (prev_fd != -1)
 			close(prev_fd);
 		if (curr->next)
-			close(fd[1]), prev_fd = fd[0];
+		{
+			close(fd[1]);
+			prev_fd = fd[0];
+		}
 		curr = curr->next;
 		i++;
 	}

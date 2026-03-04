@@ -11,6 +11,7 @@ SRC_FILES	=	main.c \
 				utils/handle_signals.c \
 				utils/init.c \
 				utils/refresh_paths.c \
+				utils/heredoc.c \
 				built_in/cd.c \
 				built_in/echo.c \
 				built_in/env.c \
@@ -35,6 +36,7 @@ SRC_FILES	=	main.c \
 				execution/external_commands.c \
 				execution/exec_builtin.c \
 				execution/exec_pipe.c \
+				execution/redirections.c \
 				tests/test_print.c \
 
 SRC			= $(addprefix $(SRC_DIR)/, $(SRC_FILES))
