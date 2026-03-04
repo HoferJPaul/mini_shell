@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 12:08:33 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/09 17:32:45 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/04 18:15:14 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,22 @@ void sigint_handler(int signo)
 {
 	(void)signo;
 	g_sigint_received = 1;
-
-	//TODO apparently these functions are unsafe here
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+}
+
+/*
+** SIGINT handler used only during heredoc readline loop.
+** Sets the global flag and makes readline return NULL on next call
+** by closing stdin — clean, no forbidden functions needed.
+*/
+void	heredoc_sigint(int sig)
+{
+	(void)sig;
+	g_sigint_received = 1;
+	write(STDOUT_FILENO, "\n", 1);
+	//close(STDIN_FILENO);
 }
 
 //Sets up signal handlers: SIGINT → custom handler, SIGQUIT → ignored.

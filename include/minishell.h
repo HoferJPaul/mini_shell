@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/03 14:37:49 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/04 17:23:26 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_shell
 void	process_line(t_shell *mini, char *input);
 int setup_struct(t_shell *mini, t_env **env);
 void sigint_handler(int signo);
+void	heredoc_sigint(int sig);
 void setup_signals(t_shell *mini);
 void ctrl_d(char *line);
 // =================== EXECUTION =====================
@@ -101,6 +102,7 @@ void exec_external(t_shell *mini, char **command);
 int	check_builtin(char *cmd);
 int exec_builtin(t_shell *mini, char **command);
 int	execution_pipe(t_shell *mini);
+int	apply_redirections(t_command *cmd);
 //================= BUILTINS =================================
 int export(t_env **env, char **command);
 int cd(t_shell *mini, char **command);
@@ -121,6 +123,7 @@ void init_paths(t_env *env, t_shell *mini);
 void refresh_paths(t_shell *mini);
 void add_new_paths(t_shell *mini, char *new_path);
 void print_env(t_env *env);
+int	collect_heredocs(t_shell *mini);
 
 //==================CLEANUP===================================
 void free_array(char **arr);
