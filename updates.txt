@@ -129,3 +129,11 @@ update 02.03 15.27 by zgahrama
 	-tested, should compile and work properly.
 	**needs more testing after pipes are finished.
 }
+update 04.03 16:00 by phofer
+{
+	- added heredoc.c and redirect.c
+	- fixed some meory leaks
+	- added NULL Guards
+	- did a bunch of testing and small fixes
+	- heredoc pipes terminated with ctrl + C currenlty broken, I think we have to make a separate signal function for it
+}
