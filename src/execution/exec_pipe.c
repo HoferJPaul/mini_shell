@@ -3,16 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 14:12:09 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/04 15:27:48 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/05 13:24:08 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/tokens.h"
 
+/*
+** Counts the number of commands in the linked list.
+** Used to determine how many PIDs to allocate for the pipeline.
+** 
+** @param commands: Head of the command linked list
+** @return: Number of commands in the list
+*/
 static int	count_commands(t_command *commands)
 {
 	t_command	*curr;
@@ -28,6 +35,15 @@ static int	count_commands(t_command *commands)
 	return (i);
 }
 
+/*
+** Extracts the exit status from waitpid() result.
+** If process exited normally, returns exit code (0-255).
+** If terminated by signal, returns 128 + signal number.
+** This follows bash convention for signal exit codes.
+**
+** @param status: Status value returned by waitpid()
+** @return: Normalized exit status for shell
+*/
 int	extract_status(int status)
 {
 	if (WIFEXITED(status))
@@ -37,6 +53,18 @@ int	extract_status(int status)
 	return (1);
 }
 
+/*
+** Executes a single command in a child process within a pipeline.
+** Sets up pipe connections (stdin from prev_fd, stdout to fd[1]).
+** Applies file redirections which can override pipe connections.
+** Executes builtin or external command, exits on completion or error.
+**
+** @param mini: Shell state (environment, variables, etc)
+** @param curr: Current command to execute
+** @param prev_fd: Read end of previous pipe (-1 if first command)
+** @param fd: Write end of current pipe (unused if last command)
+** @return: Never returns (child process exits)
+*/
 static void	exec_pipe_child(t_shell *mini, t_command *curr, int prev_fd,
 		int fd[2])
 {
@@ -63,6 +91,16 @@ static void	exec_pipe_child(t_shell *mini, t_command *curr, int prev_fd,
 	exit(127);
 }
 
+/*
+** Creates pipes and forks child processes for each command in pipeline.
+** Each child gets connected via pipes, with stdin from previous command
+** and stdout to next command. Parent closes unused pipe ends.
+**
+** @param mini: Shell state
+** @param pid: Array to store child PIDs
+** @param last_pid: Output parameter for last child PID (for exit status)
+** @return: Number of processes created, or -1 on error
+*/
 static int	execute_pipe_cmds(t_shell *mini, pid_t *pid, pid_t *last_pid)
 {
 	t_command	*curr;
@@ -96,6 +134,14 @@ static int	execute_pipe_cmds(t_shell *mini, pid_t *pid, pid_t *last_pid)
 	return (i);
 }
 
+/*
+** Main function to execute a pipeline of commands.
+** Allocates PID array, creates pipes and forks for each command,
+** waits for all children to complete, and sets exit status from last command.
+**
+** @param mini: Shell state containing commands to execute
+** @return: 0 on success, 1 on error (malloc or pipe/fork failure)
+*/
 int	execution_pipe(t_shell *mini)
 {
 	pid_t	*pid;
