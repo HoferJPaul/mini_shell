@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:54:21 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/02 19:14:42 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/05 13:30:33 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,13 @@ int ft_exit(t_shell *mini, char **command)
     long long num;
 
     if (!command[1])
-        return (EXIT_SIGNAL);
+    //cleanup before
+        exit(mini->g_exit_status);
     if (command[2])
     {
         ft_putstr_fd("exit: too many arguments\n", 2);
         mini->g_exit_status = 1;
-        return (1);
+        return (mini->g_exit_status);
     }
     if (check_str(command[1]) || safe_atoi(command[1], &num))
     {
@@ -77,9 +78,10 @@ int ft_exit(t_shell *mini, char **command)
         ft_putstr_fd(command[1], 2);
         ft_putstr_fd(": numeric argument required\n", 2);
         mini->g_exit_status = 255;
-        return (EXIT_SIGNAL);
+        return (mini->g_exit_status);
     }
     mini->g_exit_status = (unsigned char)num;
-    return (EXIT_SIGNAL);
+    //cleanup
+    exit(mini->g_exit_status);
 }
 

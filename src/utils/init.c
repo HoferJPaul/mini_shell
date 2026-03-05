@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 16:19:14 by phofer            #+#    #+#             */
-/*   Updated: 2026/03/04 17:17:59 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/05 12:19:54 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	setup_struct(t_shell *mini, t_env **env)
 	mini->flag = 0;
 	mini->g_exit_status = 0;
 	mini->running = 1;
-	mini->has_pipe = 0;//for now, we need a function to check for the pipes :D
 	path_value = env_get(mini->env, "PATH");
 	init_paths(*env, mini);
 	if (path_value && !mini->paths)
