@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 00:00:00 by phofer            #+#    #+#             */
-/*   Updated: 2026/03/05 17:53:09 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/05 18:33:47 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ static char	*read_pipe_content(int fd)
 static void	sigint_exit(int sig)
 {
 	(void)sig;
-	_exit(130);
+	signal(SIGINT, SIG_DFL);
+	kill(getpid(), SIGINT);
 }
 
 static void	heredoc_child(const char *delim, int no_exp, t_shell *mini,
