@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/05 12:20:04 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/05 17:00:01 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int setup_struct(t_shell *mini, t_env **env);
 void sigint_handler(int signo);
 void	heredoc_sigint(int sig);
 void setup_signals(t_shell *mini);
-void ctrl_d(char *line);
+void ctrl_d(char *line, t_shell *mini);
 // =================== EXECUTION =====================
 int execution(t_shell *mini);
 void exec_external(t_shell *mini, char **command);
@@ -126,7 +126,7 @@ int	collect_heredocs(t_shell *mini);
 
 //==================CLEANUP===================================
 void free_array(char **arr);
-
+void free_dobby(t_shell *mini);
 //================TESTING================================
 void	print_tokens_debug(t_token *tokens);
 void print_commands_shell_format(t_command *commands);

@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 12:08:33 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/05 14:01:15 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/05 16:59:43 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ void	setup_signals(t_shell *mini)
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
-void	ctrl_d(char *line) // technically this is not a signal we can catch, so we are catching the EOF
+void	ctrl_d(char *line, t_shell *mini) // technically this is not a signal we can catch, so we are catching the EOF
 {
 	if (!line)
 	{
 		printf("exit\n");
-		// cleanup stuff here
+		free_dobby(mini);
 		exit(0);
 	}
 }

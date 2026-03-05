@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:54:21 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/05 13:30:33 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/05 16:54:44 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,14 @@ static int  safe_atoi(char *str, long long *out)
 int ft_exit(t_shell *mini, char **command)
 {
     long long num;
-
+    int exit_stat;
+    
     if (!command[1])
-    //cleanup before
-        exit(mini->g_exit_status);
+    {
+        exit_stat = mini->g_exit_status;
+        free_dobby(mini);
+        exit(exit_stat);
+    }
     if (command[2])
     {
         ft_putstr_fd("exit: too many arguments\n", 2);
@@ -81,7 +85,8 @@ int ft_exit(t_shell *mini, char **command)
         return (mini->g_exit_status);
     }
     mini->g_exit_status = (unsigned char)num;
-    //cleanup
-    exit(mini->g_exit_status);
+    exit_stat = mini->g_exit_status;
+    free_dobby(mini);
+    exit(exit_stat);
 }
 

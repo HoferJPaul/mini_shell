@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 17:06:52 by phofer            #+#    #+#             */
-/*   Updated: 2026/03/05 14:03:38 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/05 17:00:14 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	shell_loop(t_shell *mini)
 	while (mini->running)
 	{
 		input = readline("minishell> ");
-		ctrl_d(input);
+		ctrl_d(input, mini);
 		if (g_sigint_received != 0)
 		{
 			g_sigint_received = 0;
@@ -57,6 +57,6 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	setup_signals(&mini);
 	shell_loop(&mini);
-	// todo cleanup();
+	free_dobby(&mini);
 	return (mini.g_exit_status);
 }
