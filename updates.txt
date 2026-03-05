@@ -137,3 +137,9 @@ update 04.03 16:00 by phofer
 	- did a bunch of testing and small fixes
 	- heredoc pipes terminated with ctrl + C currenlty broken, I think we have to make a separate signal function for it
 }
+update 05.03 16.01 by zgahrama
+{
+	- ctrl + c bugfix
+	- exit function now exits(still needs cleanup functions before exiting)
+	- wrote cleanup for env struct.
+}
