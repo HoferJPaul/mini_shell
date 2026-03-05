@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_commands.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
+/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 14:11:00 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/04 15:41:06 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/05 16:28:07 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ char	*find_command_path(t_shell *mini, char *cmd)
 void	exec_external(t_shell *mini, char **command)
 {
 	char	*path;
-
+	char	**envp;
+	
 	if (ft_strchr(command[0], '/'))
 		path = command[0];
 	else
@@ -61,9 +62,11 @@ void	exec_external(t_shell *mini, char **command)
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		exit(127);
 	}
-	execve(path, command, env_to_array(mini->env));
+	envp = env_to_array(mini->env);
+	execve(path, command, envp);
 	perror("execve");
 	if (path != command[0])
 		free(path);
+	free_array(envp);
 	exit(126);
 }

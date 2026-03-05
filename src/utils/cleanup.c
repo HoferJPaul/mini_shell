@@ -6,7 +6,7 @@
 /*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 12:09:21 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/05 14:20:29 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/05 16:51:59 by zgahrama         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,19 @@ void free_env_nodes(t_env *env)
         free(curr);
         curr = next;
     }
+}
+//master cleanup
+void free_dobby(t_shell *mini)
+{
+    rl_clear_history();
+    if(!mini)
+    {
+        printf("no mini struct initialized!\n");
+        return;
+    }
+    free(mini->cwd);
+    free_array(mini->paths);
+    free_env_nodes(mini->env);
+    free_commands(mini->commands);
+   // free_tokens(mini->tokens);//to be implemented
 }
