@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 16:19:14 by phofer            #+#    #+#             */
-/*   Updated: 2026/03/05 12:19:54 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/05 17:57:04 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	process_line(t_shell *mini, char *input)
 		return ((void)(mini->g_exit_status = err));
 	err = collect_heredocs(mini);
 	if (err)
-		return ((void)(mini->g_exit_status = err));
+		return ;
 }
 
 int	setup_struct(t_shell *mini, t_env **env)

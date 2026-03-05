@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 17:06:52 by phofer            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2026/03/05 17:00:14 by zgahrama         ###   ########.fr       */
+=======
+/*   Updated: 2026/03/05 18:29:56 by phofer           ###   ########.fr       */
+>>>>>>> debug_heredoc
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +37,13 @@ static void	shell_loop(t_shell *mini)
 			add_history(input);
 			process_line(mini, input);
 			// process_line_debug(mini, input);
-			execution(mini);
+			if (g_sigint_received)
+    		{
+    		    g_sigint_received = 0;
+    		    mini->g_exit_status = 130;
+    		}
+    		else
+    		    execution(mini);
 		}
 		printf("TESTING: g_exit_status = %d\n", mini->g_exit_status);
 		// for testing only
