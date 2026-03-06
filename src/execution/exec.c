@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:34:28 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/04 15:50:59 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/06 16:55:04 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,17 @@ int	execution(t_shell *mini)
 {
 	pid_t	p;
 	int		status;
+	char	**args;
 
 	if (!mini->commands || !mini->commands->args || !mini->commands->args[0])
 		return (1);
 	if (mini->commands->next)
 		return (execution_pipe(mini));
+	args = mini->commands->args;
+	while (args[0] && args[0][0] == '\0')
+		args++;
+	if (!args[0])
+		return (mini->g_exit_status = 0, 0);
 	/* single command: builtins run in parent to keep state changes.
 	** Save stdin/stdout first so redirections don't permanently alter
 	** the shell's own file descriptors after the builtin returns. */
@@ -73,11 +79,14 @@ int	execution(t_shell *mini)
 		saved_out = dup(STDOUT_FILENO);
 		if (apply_redirections(mini->commands) == -1)
 		{
-			close(saved_in);
-			close(saved_out);
-			return (mini->g_exit_status = 1, 1);
+		    dup2(saved_in, STDIN_FILENO);   // restore first
+		    dup2(saved_out, STDOUT_FILENO);
+		    close(saved_in);
+		    close(saved_out);
+		    mini->g_exit_status = 1;
+		    return (1);
 		}
-		ret = exec_builtin(mini, mini->commands->args);
+		ret = exec_builtin(mini, args);
 		dup2(saved_in, STDIN_FILENO);
 		dup2(saved_out, STDOUT_FILENO);
 		close(saved_in);
@@ -91,7 +100,7 @@ int	execution(t_shell *mini)
 	{
 		if (apply_redirections(mini->commands) == -1)
 			exit(1);
-		exec_external(mini, mini->commands->args);
+		exec_external(mini, args);
 		exit(1); /* backup – exec_external already exits on failure */
 	}
 	waitpid(p, &status, 0);

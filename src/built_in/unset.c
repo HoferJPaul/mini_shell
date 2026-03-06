@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:53:52 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/02 19:12:09 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/06 15:39:16 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,11 @@ static void remove_var(t_env **env, char *var)
 int unset(t_env **env, char **command)
 {
     int i;
-    
+
     if(!command[1])
-    {
-        ft_putstr_fd("unset: no arguments\n", 2);
-        return 1;//fail
+    {	//bash does not print anything, as this is expected behaviour, not error
+        //ft_putstr_fd("unset: no arguments\n", 2);
+        return 0;
     }
     i = 1;//index 0 is unset command
     while(command[i])

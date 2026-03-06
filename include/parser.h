@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:05:48 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/23 16:11:11 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/06 16:18:01 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,6 @@ void	skip_whitespaces(const char *str, size_t *i);
 int		is_operator(char c);
 int		is_quote(char c);
 void	skip_whitespaces(const char *str, size_t *i);
+void	free_tokens(t_token *tokens);
 
 #endif

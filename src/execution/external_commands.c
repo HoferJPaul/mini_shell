@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_commands.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 14:11:00 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/05 16:28:07 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/06 16:51:01 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	exec_external(t_shell *mini, char **command)
 {
 	char	*path;
 	char	**envp;
-	
+
 	if (ft_strchr(command[0], '/'))
 		path = command[0];
 	else
@@ -64,9 +64,18 @@ void	exec_external(t_shell *mini, char **command)
 	}
 	envp = env_to_array(mini->env);
 	execve(path, command, envp);
-	perror("execve");
+	ft_putstr_fd(command[0], STDERR_FILENO);
+	if (errno == ENOENT)
+	{
+	    ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+	    if (path != command[0])
+	        free(path);
+	    free_array(envp);
+	    exit(127);
+	}
+	perror(command[0]);
 	if (path != command[0])
-		free(path);
+	    free(path);
 	free_array(envp);
 	exit(126);
 }
