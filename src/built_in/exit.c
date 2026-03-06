@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:54:21 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/05 16:54:44 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/06 15:56:10 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,25 +63,25 @@ int ft_exit(t_shell *mini, char **command)
 {
     long long num;
     int exit_stat;
-    
+
     if (!command[1])
     {
         exit_stat = mini->g_exit_status;
         free_dobby(mini);
         exit(exit_stat);
     }
-    if (command[2])
-    {
-        ft_putstr_fd("exit: too many arguments\n", 2);
-        mini->g_exit_status = 1;
-        return (mini->g_exit_status);
-    }
-    if (check_str(command[1]) || safe_atoi(command[1], &num))
+	if (check_str(command[1]) || safe_atoi(command[1], &num))
     {
         ft_putstr_fd("exit: ", 2);
         ft_putstr_fd(command[1], 2);
         ft_putstr_fd(": numeric argument required\n", 2);
-        mini->g_exit_status = 255;
+        free_dobby(mini);
+		exit(2);
+    }
+    if (command[2])
+    {
+        ft_putstr_fd("exit: too many arguments\n", 2);
+        mini->g_exit_status = 1;
         return (mini->g_exit_status);
     }
     mini->g_exit_status = (unsigned char)num;

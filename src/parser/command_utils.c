@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 00:00:00 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/23 15:45:44 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/06 16:19:17 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,18 @@ void	free_commands(t_command *cmd)
 		cmd = cmd->next;
 		free_string_array(temp->args);
 		free_redirects(temp->redirects);
+		free(temp);
+	}
+}
+void	free_tokens(t_token *tokens)
+{
+	t_token	*temp;
+
+	while (tokens)
+	{
+		temp = tokens;
+		tokens = tokens->next;
+		free(temp->value);
 		free(temp);
 	}
 }

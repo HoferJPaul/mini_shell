@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:52:22 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/03 15:05:40 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/06 15:42:40 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char *cd_resolve_target(t_shell *mini, char **command)
     }
     if (command[2])
     {
-        printf("cd: too many arguments\n");
+        ft_putendl_fd("cd: too many arguments\n", STDERR_FILENO);
         return NULL;
     }
     else if (ft_strcmp(command[1], "-") == 0)
@@ -37,7 +37,7 @@ static char *cd_resolve_target(t_shell *mini, char **command)
         target = env_get(mini->env, "OLDPWD");
         if (!target)
         {
-            printf("cd: OLDPWD not set\n");
+            ft_putendl_fd("cd: OLDPWD not set\n", STDERR_FILENO);
             return NULL;
         }
         return(target);

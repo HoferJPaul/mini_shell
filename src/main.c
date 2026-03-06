@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 17:06:52 by phofer            #+#    #+#             */
-/*   Updated: 2026/03/05 18:45:10 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/06 16:34:02 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "../include/minishell.h"
 
 volatile sig_atomic_t	g_sigint_received = 0;
+
+void	free_tokens(t_token *tokens);
 
 static void	shell_loop(t_shell *mini)
 {
@@ -41,9 +43,13 @@ static void	shell_loop(t_shell *mini)
     		else
     		    execution(mini);
 		}
-		printf("TESTING: g_exit_status = %d\n", mini->g_exit_status);
+		//printf("TESTING: g_exit_status = %d\n", mini->g_exit_status);
 		// for testing only
 		free(input);
+		free_tokens(mini->tokens);
+		mini->tokens = NULL;
+		free_commands(mini->commands);
+		mini->commands = NULL;
 	}
 }
 int	main(int argc, char **argv, char **envp)

@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 12:08:33 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/05 18:36:12 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/06 16:33:07 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,11 @@ void	ctrl_d(char *line, t_shell *mini) // technically this is not a signal we ca
 {
 	if (!line)
 	{
+		int status;
+
 		printf("exit\n");
+		status = mini->g_exit_status;
 		free_dobby(mini);
-		exit(0);
+		exit(status);
 	}
 }

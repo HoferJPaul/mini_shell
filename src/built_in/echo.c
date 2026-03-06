@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:52:09 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/03 14:52:22 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/06 16:47:38 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,19 @@ int echo(char **command)
     }
     if(!command[1])
     {
-        if(flag == 1)
-            printf("");
-        else
-            printf("\n");
+        if (flag == 0)
+            ft_putstr_fd("\n", STDOUT_FILENO);
         return 0;
     }
-    while (command[i+1])
+    while (command[i])
     {
-        printf("%s", command[i]);
-        if (command[i+1])
-            printf(" ");
+        ft_putstr_fd(command[i], STDOUT_FILENO);
+        if (command[i + 1])
+            ft_putstr_fd(" ", STDOUT_FILENO);
         i++;
     }
-    printf("%s", command[i]);
     if (flag == 0)
-        printf("\n");
-    return 0;
+        ft_putstr_fd("\n", STDOUT_FILENO);
+    return (0);
 }
 // my approach, should double check when parsing is ready
