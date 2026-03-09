@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 14:12:09 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/09 14:24:16 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/09 16:07:01 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ static void	exec_pipe_child(t_shell *mini, t_command *curr, int prev_fd,
 {
 	/* wire up pipe fds BEFORE applying redirections so that explicit
 	   redirections (< or >) can override the pipe ends if needed */
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	if (prev_fd != -1)
 		dup2(prev_fd, STDIN_FILENO);
 	if (curr->next)

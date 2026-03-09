@@ -6,16 +6,15 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 12:08:33 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/06 16:33:07 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/09 18:37:01 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-#include <termios.h>
 
 // ctrl-c, ctrl-d, ctrl-'\' handling functions here
 // Handles SIGINT (Ctrl+C is printed and ignored)
-void	sigint_handler(int signo)
+void	sigint_prompt(int signo)
 {
 	(void)signo;
 	g_sigint_received = 1;
@@ -25,33 +24,32 @@ void	sigint_handler(int signo)
 	rl_redisplay();
 }
 
-// Suppress or restore terminal echoing of control characters (e.g. ^C).
-void	termios_change(int echo_ctl_chr)
+void	sigint_exec(int signo)
 {
-	struct termios	t;
-
-	if (tcgetattr(STDOUT_FILENO, &t) == -1)
-		return ;
-	if (echo_ctl_chr)
-		t.c_lflag |= ECHOCTL;
-	else
-		t.c_lflag &= ~(ECHOCTL);
-	tcsetattr(STDOUT_FILENO, TCSANOW, &t);
+	(void)signo;
+	g_sigint_received = 1;
+	write(1, "\n", 1);
 }
 
-// Sets up signal handlers: SIGINT → custom handler, SIGQUIT → ignored.
-void	setup_signals(t_shell *mini)
+void	setup_prompt_signals(void)
 {
-	(void) mini;
-	signal(SIGINT, sigint_handler);
+	signal(SIGINT, sigint_prompt);
 	signal(SIGQUIT, SIG_IGN);
 }
-void	ctrl_d(char *line, t_shell *mini) // technically this is not a signal we can catch, so we are catching the EOF
+
+void	setup_exec_signals(void)
 {
+	signal(SIGINT, sigint_exec);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+// technically this is not a signal we can catch, so we are catching the EOF
+void	ctrl_d(char *line, t_shell *mini)
+{
+	int	status;
+
 	if (!line)
 	{
-		int status;
-
 		printf("exit\n");
 		status = mini->g_exit_status;
 		free_dobby(mini);

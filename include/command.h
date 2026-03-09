@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 00:00:00 by phofer            #+#    #+#             */
-/*   Updated: 2026/03/09 14:48:09 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/09 18:43:55 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,12 @@ typedef struct s_token	t_token;
 /*
 ** Redirection structure
 ** Stores reference to the redirect token and its target file token
-** No need to duplicate data - just point to existing tokens
 */
 typedef struct s_redirect
 {
-	t_token				*redir_token;	// The redirect operator token (<, >, >>, <<)
-	t_token				*file_token;	// The filename/delimiter token
-	char				*heredoc_content;	// Content for heredoc (filled during execution)
+	t_token				*redir_token;
+	t_token				*file_token;
+	char				*heredoc_content;
 	struct s_redirect	*next;
 }	t_redirect;
 
@@ -38,9 +37,9 @@ typedef struct s_redirect
 */
 typedef struct s_command
 {
-	char				**args;		// NULL-terminated array: ["echo", "hello", NULL]
-	t_redirect			*redirects;	// Linked list of redirections
-	struct s_command	*next;		// Next command in pipeline
+	char				**args;
+	t_redirect			*redirects;
+	struct s_command	*next;
 }	t_command;
 
 int			parse(t_shell *mini);

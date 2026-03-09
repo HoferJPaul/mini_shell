@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 17:06:52 by phofer            #+#    #+#             */
-/*   Updated: 2026/03/06 16:34:02 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/09 16:51:43 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 
 volatile sig_atomic_t	g_sigint_received = 0;
 
-void	free_tokens(t_token *tokens);
-
 static void	shell_loop(t_shell *mini)
 {
 	char	*input;
 
 	while (mini->running)
 	{
+		setup_prompt_signals();
 		input = readline("minishell> ");
 		ctrl_d(input, mini);
 		if (g_sigint_received != 0)
@@ -33,23 +32,10 @@ static void	shell_loop(t_shell *mini)
 		if (*input)
 		{
 			add_history(input);
-			process_line(mini, input);
-			// process_line_debug(mini, input);
-			if (g_sigint_received)
-    		{
-    		    g_sigint_received = 0;
-    		    mini->g_exit_status = 130;
-    		}
-    		else
-    		    execution(mini);
+    		if (process_line(mini, input) == 0)
+				execution(mini);
 		}
-		//printf("TESTING: g_exit_status = %d\n", mini->g_exit_status);
-		// for testing only
-		free(input);
-		free_tokens(mini->tokens);
-		mini->tokens = NULL;
-		free_commands(mini->commands);
-		mini->commands = NULL;
+		free_loop(mini, input);
 	}
 }
 int	main(int argc, char **argv, char **envp)
@@ -67,7 +53,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (!setup_struct(&mini, &env))
 		return (1);
-	setup_signals(&mini);
 	shell_loop(&mini);
 	free_dobby(&mini);
 	return (mini.g_exit_status);

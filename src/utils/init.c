@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 16:19:14 by phofer            #+#    #+#             */
-/*   Updated: 2026/03/05 17:57:04 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/09 16:16:07 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,23 @@
 #include "../include/tokens.h"
 
 //initiates parsing/tokenizing functions - located in ../src/parser
-void	process_line(t_shell *mini, char *input)
+int	process_line(t_shell *mini, char *input)
 {
 	int	err;
 
 	err = tokenize(mini, input);
 	if (err)
-		return ((void)(mini->g_exit_status = err));
+		return ((mini->g_exit_status = err), 1);
 	err = expand(mini);
 	if (err)
-		return ((void)(mini->g_exit_status = err));
+		return ((mini->g_exit_status = err), 1);
 	err = parse(mini);
 	if (err)
-		return ((void)(mini->g_exit_status = err));
+		return ((mini->g_exit_status = err), 1);
 	err = collect_heredocs(mini);
 	if (err)
-		return ;
+		return (1);
+	return (0);
 }
 
 int	setup_struct(t_shell *mini, t_env **env)
@@ -40,7 +41,6 @@ int	setup_struct(t_shell *mini, t_env **env)
 	if (!mini || !env)
 		return (0);
 	mini->env = *env;
-	mini->flag = 0;
 	mini->g_exit_status = 0;
 	mini->running = 1;
 	path_value = env_get(mini->env, "PATH");
