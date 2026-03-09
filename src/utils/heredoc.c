@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 00:00:00 by phofer            #+#    #+#             */
-/*   Updated: 2026/03/05 18:33:47 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/09 14:37:24 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,14 @@ static void	heredoc_child(const char *delim, int no_exp, t_shell *mini,
 	content = ft_strdup("");
 	if (!content)
 		_exit(1);
-	line = readline("> ");
+	line = readline("heredoc> ");
 	while (line && ft_strcmp(line, delim) != 0)
 	{
 		content = append_line(content, line, mini, no_exp);
 		free(line);
 		if (!content)
 			_exit(1);
-		line = readline("> ");
+		line = readline("heredoc> ");
 	}
 	free(line);
 	write(write_fd, content, ft_strlen(content));
