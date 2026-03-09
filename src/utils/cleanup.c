@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 12:09:21 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/05 16:51:59 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/09 14:46:49 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void free_env_nodes(t_env *env)
 {
     t_env *curr;
     t_env *next;
-    
+
     curr = env;
     while(curr != NULL)
     {
@@ -52,5 +52,5 @@ void free_dobby(t_shell *mini)
     free_array(mini->paths);
     free_env_nodes(mini->env);
     free_commands(mini->commands);
-   // free_tokens(mini->tokens);//to be implemented
+    free_tokens(mini->tokens);
 }
