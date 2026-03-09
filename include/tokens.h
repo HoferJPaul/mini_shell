@@ -6,10 +6,9 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 18:50:47 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/23 15:27:17 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/09 18:44:24 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef TOKENS_H
 # define TOKENS_H

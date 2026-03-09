@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:55:19 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/03 15:02:44 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/09 18:31:15 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 */
 int	env(t_env *env)
 {
-	t_env *cp;
-    
-    cp = env;
+	t_env	*cp;
+
+	cp = env;
 	while (cp)
 	{
 		if (cp->value)

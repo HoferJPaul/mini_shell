@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:53:14 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/09 15:08:13 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/09 18:33:39 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	check_var_format(char *var)
 	ft_putstr_fd("export: not a valid identifier\n", 2);
 	return (-1);
 }
+
 char	*parse_key(char *var)
 {
 	char	*key;
@@ -108,7 +109,7 @@ int	export(t_env **env, char **command)
 		print_env(*env);
 		return (0);
 	}
-    i = 1;
+	i = 1;
 	status = 0;
 	while (command[i])
 	{

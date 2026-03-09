@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:34:28 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/09 14:24:47 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/09 16:06:15 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	execution(t_shell *mini)
 
 	if (!mini->commands || !mini->commands->args || !mini->commands->args[0])
 		return (1);
+	setup_exec_signals();
 	if (mini->commands->next)
 		return (execution_pipe(mini));
 	args = mini->commands->args;
@@ -68,9 +69,6 @@ int	execution(t_shell *mini)
 		args++;
 	if (!args[0])
 		return (mini->g_exit_status = 0, 0);
-	/* single command: builtins run in parent to keep state changes.
-	** Save stdin/stdout first so redirections don't permanently alter
-	** the shell's own file descriptors after the builtin returns. */
 	if (check_builtin(mini->commands->args[0]) == 0)
 	{
 		int	saved_in;
@@ -100,6 +98,8 @@ int	execution(t_shell *mini)
 		return (perror("fork"), 1);
 	if (p == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (apply_redirections(mini->commands) == -1)
 			exit(1);
 		exec_external(mini, args);
