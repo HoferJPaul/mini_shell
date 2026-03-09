@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 00:00:00 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/23 16:21:12 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/09 14:48:09 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_command
 int			parse(t_shell *mini);
 void		free_commands(t_command *cmd);
 void		free_redirects(t_redirect *redir);
+void		free_tokens(t_token *tokens);
 t_command	*parse_pipeline(t_token *tokens);
 t_command	*init_command(void);
 t_redirect	*init_redirect(t_token *redir_token, t_token *file_token);

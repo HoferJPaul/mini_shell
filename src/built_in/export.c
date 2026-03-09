@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:53:14 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/03 15:09:57 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/09 15:08:13 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int	export(t_env **env, char **command)
 	char	*key;
 	char	*val;
 	int		i;
+	int		status;
 
 	if (!command[1])
 	{
@@ -108,24 +109,24 @@ int	export(t_env **env, char **command)
 		return (0);
 	}
     i = 1;
+	status = 0;
 	while (command[i])
 	{
 		key = parse_key(command[i]);
 		if (!key)
 		{
-			free(key);
-			return (1);
+			status = 1;
+			++i;
+			continue ;
 		}
 		val = parse_val(command[i]);
 		if (!val)
-		{
 			env_set(env, key, NULL, 1);
-		}
         else
             env_set(env, key, val, 1);
-        i++;
+			free(key);
+			free(val);
+			++i;
 	}
-	free(key);
-	free(val);
-	return (0);
+	return (status);
 }
