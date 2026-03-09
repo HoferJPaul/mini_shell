@@ -49,7 +49,6 @@ update 08.02 16:00 by phofer
 	- created enum for token types
 		(in parsing branch)
 }
-
 update 09.02 15.07 by zgahrama
 {
 	-environment copying
