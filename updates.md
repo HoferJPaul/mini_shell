@@ -152,3 +152,9 @@ update 06.03 16:00 by phofer
 	- fixed execve exit code: ENOENT now exits 127 instead of 126 for missing path commands
 	- fixed $EMPTY expansion: empty args are now skipped before execution, matching bash behaviour
 }
+update 09.03 16:00 by phofer
+{
+	- fixed some bugs, memory leaks
+	- updated signal logic, seperate handlers for child/parent
+	- started norm corections
+}
