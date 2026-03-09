@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 14:12:09 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/05 13:24:08 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/09 14:24:16 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /*
 ** Counts the number of commands in the linked list.
 ** Used to determine how many PIDs to allocate for the pipeline.
-** 
+**
 ** @param commands: Head of the command linked list
 ** @return: Number of commands in the list
 */
@@ -84,6 +84,8 @@ static void	exec_pipe_child(t_shell *mini, t_command *curr, int prev_fd,
 	/* apply file redirections – they override the pipe ends when present */
 	if (apply_redirections(curr) == -1)
 		exit(1);
+	if (!curr || !curr->args || !curr->args[0] || curr->args[0][0] == '\0')
+		exit(0);
 	if (check_builtin(curr->args[0]) == 0)
 		exit(exec_builtin(mini, curr->args));
 	exec_external(mini, curr->args);

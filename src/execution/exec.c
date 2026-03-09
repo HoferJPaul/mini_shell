@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:34:28 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/06 16:55:04 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/09 14:24:47 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 int	check_builtin(char *cmd)
 {
+	if (!cmd)
+		return (1);
 	if (ft_strcmp(cmd, "cd") == 0)
 		return (0);
 	else if (ft_strcmp(cmd, "env") == 0)
