@@ -178,22 +178,19 @@ Some commands are executed directly by the shell without spawning a new process.
 ### Documentation
 
 - 42 Minishell Subject
-- Bash Reference Manual  
+- Bash Reference Manual
   https://www.gnu.org/software/bash/manual/
 
-- POSIX Shell Documentation  
+- POSIX Shell Documentation
   https://pubs.opengroup.org/onlinepubs/9699919799/
 
-- Linux man pages  
+- Linux man pages
   https://man7.org/linux/man-pages/
 
 ### Helpful Guides
 
-- 42 Minishell Guide  
+- 42 Minishell Guide
   https://42-cursus.gitbook.io/guide/3-rank-03/minishell
-
-- Example Minishell implementations  
-  https://github.com/search?q=42+minishell
 
 ---
 
