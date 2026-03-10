@@ -11,7 +11,6 @@ SRC_FILES	=	main.c \
 				utils/handle_signals.c \
 				utils/init.c \
 				utils/refresh_paths.c \
-				utils/heredoc.c \
 				built_in/cd.c \
 				built_in/echo.c \
 				built_in/env.c \
@@ -21,6 +20,7 @@ SRC_FILES	=	main.c \
 				built_in/unset.c \
 				parser/tokenize_words.c \
 				parser/tokenize_utils.c \
+				parser/parse_cleanup.c \
 				parser/tokenize.c \
 				parser/expansion.c \
 				parser/expansion_char.c \
@@ -32,12 +32,14 @@ SRC_FILES	=	main.c \
 				copy_env/copy_env.c \
 				copy_env/env_utils.c \
 				copy_env/print_env.c \
+				execution/exec_utils.c \
 				execution/exec.c \
 				execution/external_commands.c \
 				execution/exec_builtin.c \
 				execution/exec_pipe.c \
 				execution/redirections.c \
-				tests/test_print.c \
+				execution/heredoc.c \
+				execution/heredoc_utils.c \
 
 SRC			= $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ			= $(addprefix $(OBJ_DIR)/, $(SRC_FILES:.c=.o))

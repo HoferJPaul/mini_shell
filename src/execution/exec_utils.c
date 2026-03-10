@@ -1,33 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/05 14:55:19 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/10 14:57:51 by phofer           ###   ########.fr       */
+/*   Created: 2026/03/10 16:14:28 by phofer            #+#    #+#             */
+/*   Updated: 2026/03/10 16:14:48 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+#include "../../include/tokens.h"
 
-/*@brief
-// Replica of the env builtin: prints all environment variables
-// from the linked list. Displays each entry as "key=value" if a
-// value exists, otherwise only the key. Iterates through all nodes.
-//already tested, should work without an issue.
+/*
+** Counts the number of commands in the linked list.
+** Used to determine how many PIDs to allocate for the pipeline.
+**
+** @param commands: Head of the command linked list
+** @return: Number of commands in the list
 */
-int	env(t_env *env)
+int	count_commands(t_command *commands)
 {
-	t_env	*cp;
+	t_command	*curr;
+	int			i;
 
-	cp = env;
-	while (cp)
+	i = 0;
+	curr = commands;
+	while (curr)
 	{
-		if (cp->value)
-			printf("%s=%s\n", cp->key, cp->value);
-		cp = cp->next;
+		i++;
+		curr = curr->next;
 	}
-	return (0);
+	return (i);
 }

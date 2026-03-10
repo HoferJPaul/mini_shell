@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:52:22 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/10 14:52:33 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/10 16:02:07 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ static int	cd_update_pwd_vars(t_shell *mini, char *oldpwd)
 	free(oldpwd);
 	return (0);
 }
+
 /*
 ** cd builtin:
 ** 1) (helper)Resolve target: HOME if no arg, OLDPWD if "-", else argv[2].

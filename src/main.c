@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 17:06:52 by phofer            #+#    #+#             */
-/*   Updated: 2026/03/09 16:51:43 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/10 16:43:06 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,13 @@ static void	shell_loop(t_shell *mini)
 		if (*input)
 		{
 			add_history(input);
-    		if (process_line(mini, input) == 0)
+			if (process_line(mini, input) == 0)
 				execution(mini);
 		}
 		free_loop(mini, input);
 	}
 }
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	mini;

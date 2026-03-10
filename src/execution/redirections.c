@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 00:00:00 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/04 15:43:12 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/10 16:22:37 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,53 +32,56 @@ static int	apply_heredoc(t_redirect *redir)
 	return (0);
 }
 
-/*
-** Applies every redirection in the t_redirect list attached to cmd.
-** Returns 0 on success, -1 on any error.
-** Must be called inside the child process (or parent for builtins).
-*/
+// Prints strerror for file, returns -1.
+static int	redir_error(char *file)
+{
+	dprintf(STDERR_FILENO, "%s: %s\n", file, strerror(errno));
+	return (-1);
+}
+
+// Opens file with given flags, dup2s to target_fd; returns -1 on error.
+static int	redir_open(char *file, int flags, int target_fd)
+{
+	int	fd;
+
+	fd = open(file, flags, 0644);
+	if (fd == -1)
+		return (redir_error(file));
+	dup2(fd, target_fd);
+	close(fd);
+	return (0);
+}
+
+// Dispatches one redirection by type; returns -1 on error.
+static int	apply_one_redir(t_redirect *redir)
+{
+	int	type;
+
+	type = redir->redir_token->type;
+	if (type == T_REDIR_IN)
+		return (redir_open(redir->file_token->value,
+				O_RDONLY, STDIN_FILENO));
+	if (type == T_REDIR_OUT)
+		return (redir_open(redir->file_token->value,
+				O_WRONLY | O_CREAT | O_TRUNC, STDOUT_FILENO));
+	if (type == T_APPEND)
+		return (redir_open(redir->file_token->value,
+				O_WRONLY | O_CREAT | O_APPEND, STDOUT_FILENO));
+	if (type == T_HEREDOC)
+		return (apply_heredoc(redir));
+	return (0);
+}
+
+// Applies all redirections in cmd->redirects chain; returns -1 on first error.
 int	apply_redirections(t_command *cmd)
 {
 	t_redirect	*redir;
-	int			fd;
 
 	redir = cmd->redirects;
 	while (redir)
 	{
-		if (redir->redir_token->type == T_REDIR_IN)
-		{
-			fd = open(redir->file_token->value, O_RDONLY);
-			if (fd == -1)
-				return (dprintf(STDERR_FILENO, "%s: %s\n",
-						redir->file_token->value, strerror(errno)), -1);
-			dup2(fd, STDIN_FILENO);
-			close(fd);
-		}
-		else if (redir->redir_token->type == T_REDIR_OUT)
-		{
-			fd = open(redir->file_token->value,
-					O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			if (fd == -1)
-				return (dprintf(STDERR_FILENO, "%s: %s\n",
-						redir->file_token->value, strerror(errno)), -1);
-			dup2(fd, STDOUT_FILENO);
-			close(fd);
-		}
-		else if (redir->redir_token->type == T_APPEND)
-		{
-			fd = open(redir->file_token->value,
-					O_WRONLY | O_CREAT | O_APPEND, 0644);
-			if (fd == -1)
-				return (dprintf(STDERR_FILENO, "%s: %s\n",
-						redir->file_token->value, strerror(errno)), -1);
-			dup2(fd, STDOUT_FILENO);
-			close(fd);
-		}
-		else if (redir->redir_token->type == T_HEREDOC)
-		{
-			if (apply_heredoc(redir) == -1)
-				return (-1);
-		}
+		if (apply_one_redir(redir) == -1)
+			return (-1);
 		redir = redir->next;
 	}
 	return (0);

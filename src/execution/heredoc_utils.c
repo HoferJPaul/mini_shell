@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
+/*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 00:00:00 by phofer            #+#    #+#             */
-/*   Updated: 2026/03/09 18:41:28 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/10 16:47:02 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 #include "../include/tokens.h"
 #include "../include/command.h"
 #include <termios.h>
-//#include <asm-generic/termbits.h>
 
 char	*expand_word(const char *s, t_shell *mini);
 
-// Suppress or restore terminal echoing of control characters (e.g. ^C).
+// Suppresses or restores terminal echoing of control characters (e.g. ^C).
 void	termios_change(int echo_ctl_chr)
 {
 	struct termios	t;
@@ -32,7 +31,8 @@ void	termios_change(int echo_ctl_chr)
 	tcsetattr(STDOUT_FILENO, TCSANOW, &t);
 }
 
-static char	*read_pipe_content(int fd)
+// Reads all content from fd into a heap string; returns NULL on error.
+char	*read_pipe_content(int fd)
 {
 	char	buf[4097];
 	char	*content;
@@ -58,6 +58,7 @@ static char	*read_pipe_content(int fd)
 	return (content);
 }
 
+// Resets SIGINT to default and re-raises it to propagate to parent.
 static void	sigint_exit(int sig)
 {
 	(void)sig;
@@ -65,6 +66,7 @@ static void	sigint_exit(int sig)
 	kill(getpid(), SIGINT);
 }
 
+// Expands (or duplicates) line, writes it + newline to write_fd.
 static int	write_processed_line(int write_fd, char *line,
 		t_shell *mini, int no_exp)
 {
@@ -84,7 +86,11 @@ static int	write_processed_line(int write_fd, char *line,
 	return (0);
 }
 
-static void	heredoc_child(const char *delim, int no_exp,
+/*
+** Heredoc child process: reads lines with readline until delim is matched,
+** writing each processed line to write_fd. Exits 0 on success, 1 on error.
+*/
+void	heredoc_child(const char *delim, int no_exp,
 		t_shell *mini, int write_fd)
 {
 	char	*line;
@@ -106,110 +112,4 @@ static void	heredoc_child(const char *delim, int no_exp,
 	free(line);
 	close(write_fd);
 	_exit(0);
-}
-
-static char	*heredoc_parent(int pipefd[2], pid_t pid)
-{
-	int		status;
-	char	*content;
-
-	signal(SIGINT, SIG_IGN);
-	while (waitpid(pid, &status, 0) == -1 && errno == EINTR)
-		;
-	termios_change(1);
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-	{
-		write(STDOUT_FILENO, "\n", 1);
-		g_sigint_received = 1;
-		close(pipefd[0]);
-		return (NULL);
-	}
-	if (!WIFEXITED(status) || WEXITSTATUS(status) != 0)
-	{
-		close(pipefd[0]);
-		return (NULL);
-	}
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	content = read_pipe_content(pipefd[0]);
-	close(pipefd[0]);
-	return (content);
-}
-
-static char	*heredoc_readline(const char *delim, int no_exp, t_shell *mini)
-{
-	int		pipefd[2];
-	pid_t	pid;
-
-	if (pipe(pipefd) == -1)
-		return (NULL);
-	termios_change(0);
-	pid = fork();
-	if (pid == -1)
-		return (close(pipefd[0]), close(pipefd[1]), termios_change(1), NULL);
-	if (pid == 0)
-	{
-		close(pipefd[0]);
-		heredoc_child(delim, no_exp, mini, pipefd[1]);
-	}
-	close(pipefd[1]);
-	return (heredoc_parent(pipefd, pid));
-}
-
-static int	collect_one_heredoc(t_redirect *redir, t_shell *mini)
-{
-	char	*content;
-
-	g_sigint_received = 0;
-	content = heredoc_readline(
-			redir->file_token->value,
-			redir->file_token->heredoc_no_expand,
-			mini);
-	if (!content)
-	{
-		if (g_sigint_received)
-			return (130);
-		return (1);
-	}
-	free(redir->heredoc_content);
-	redir->heredoc_content = content;
-	return (0);
-}
-
-static int	collect_cmd_heredocs(t_command *cmd, t_shell *mini)
-{
-	t_redirect	*redir;
-	int			status;
-
-	redir = cmd->redirects;
-	while (redir)
-	{
-		if (redir->redir_token->type == T_HEREDOC)
-		{
-			status = collect_one_heredoc(redir, mini);
-			if (status != 0)
-				return (status);
-		}
-		redir = redir->next;
-	}
-	return (0);
-}
-
-int	collect_heredocs(t_shell *mini)
-{
-	t_command	*cmd;
-	int			status;
-
-	cmd = mini->commands;
-	while (cmd)
-	{
-		status = collect_cmd_heredocs(cmd, mini);
-		if (status != 0)
-		{
-			mini->g_exit_status = status;
-			return (1);
-		}
-		cmd = cmd->next;
-	}
-	return (0);
 }

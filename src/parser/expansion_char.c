@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 14:46:59 by phofer            #+#    #+#             */
-/*   Updated: 2026/03/04 16:27:20 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/10 16:28:26 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@
 ** - $0-$9 : positional parameters (return empty string)
 ** - Other: environment variables via getenv()
 **
-** @param name Variable name (without $)
-** @param len  Length of variable name
-** @param mini Shell structure containing exit status
 ** @return     Newly allocated string with var value, or empty string if unset
 */
 static char	*get_var_value(const char *name, size_t len, t_shell *mini)
@@ -41,7 +38,7 @@ static char	*get_var_value(const char *name, size_t len, t_shell *mini)
 	var_name = ft_substr(name, 0, len);
 	if (!var_name)
 		return (NULL);
-	value = env_get(mini->env, var_name); /* use shell env, not process env */
+	value = env_get(mini->env, var_name);
 	free(var_name);
 	if (!value)
 		return (ft_strdup(""));
@@ -57,10 +54,6 @@ static char	*get_var_value(const char *name, size_t len, t_shell *mini)
 **
 ** Updates the index i to point after the variable name.
 **
-** @param s    Input string
-** @param i    Pointer to current index (at $)
-** @param ctx  Buffer context
-** @param mini Shell structure
 ** @return     1 on success, 0 on malloc failure
 */
 static int	expand_var(const char *s, size_t *i, t_buf_ctx *ctx, t_shell *mini)
@@ -89,9 +82,6 @@ static int	expand_var(const char *s, size_t *i, t_buf_ctx *ctx, t_shell *mini)
 ** Single quotes preserve everything literally - no expansion occurs.
 ** Removes the quotes themselves from output.
 **
-** @param s    Input string
-** @param i    Pointer to current index (at opening ')
-** @param ctx  Buffer context
 ** @return     1 on success, 0 on malloc failure
 */
 static int	process_single_quotes(const char *s, size_t *i, t_buf_ctx *ctx)
@@ -113,10 +103,6 @@ static int	process_single_quotes(const char *s, size_t *i, t_buf_ctx *ctx)
 ** Double quotes allow variable expansion but remove the quotes.
 ** Variables are expanded, other text is preserved literally.
 **
-** @param s    Input string
-** @param i    Pointer to current index (at opening ")
-** @param ctx  Buffer context
-** @param mini Shell structure
 ** @return     1 on success, 0 on malloc failure
 */
 static int	process_double_quotes(const char *s, size_t *i,
@@ -142,6 +128,13 @@ static int	process_double_quotes(const char *s, size_t *i,
 	return (1);
 }
 
+/*
+** Processes the character at the current index 'i' in string 's'.
+** Handles single quotes, double quotes, and variable expansion ($).
+** For normal characters, appends to 'ctx' and increments 'i'.
+**
+** Returns 1 on success, 0 on error.
+*/
 int	process_char(const char *s, size_t *i,
 				t_buf_ctx *ctx, t_shell *mini)
 {

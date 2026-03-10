@@ -6,102 +6,102 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:53:52 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/06 15:39:16 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/10 16:01:33 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/tokens.h"
 
-static int validate_var(char *var)
+static int	validate_var(char *var)
 {
-     int i;
+	int	i;
 
-    if (var[0] && (var[0] == '_' || ft_isalpha(var[0]) == 1))
-    {
-        i = 1;
-        while (var[i])
-        {
-            if (var[i] != '_' && ft_isalnum(var[i]) != 1)
-                return 0;
-            i++;
-        }
-        return 1;
-    }
-    return 0;
+	if (var[0] && (var[0] == '_' || ft_isalpha(var[0]) == 1))
+	{
+		i = 1;
+		while (var[i])
+		{
+			if (var[i] != '_' && ft_isalnum(var[i]) != 1)
+				return (0);
+			i++;
+		}
+		return (1);
+	}
+	return (0);
 }
-static int check_var_exists(t_env **env, char *var)
+
+static int	check_var_exists(t_env **env, char *var)
 {
-    t_env *curr = *env;
-    size_t len = ft_strlen(var);
+	t_env	*curr;
+	size_t	len;
 
-    while (curr)
-    {
-        if (ft_strncmp(curr->key, var, len) == 0
-            && curr->key[len] == '\0')
-            return 1;
-        curr = curr->next;
-    }
-    return 0;
+	curr = *env;
+	len = ft_strlen(var);
+	while (curr)
+	{
+		if (ft_strncmp(curr->key, var, len) == 0 && curr->key[len] == '\0')
+			return (1);
+		curr = curr->next;
+	}
+	return (0);
 }
-static void remove_var(t_env **env, char *var)
+
+static void	remove_var(t_env **env, char *var)
 {
-    t_env *curr;
-    t_env *prev;
-    t_env *next;
-    size_t len;
+	t_env	*curr;
+	t_env	*prev;
+	t_env	*next;
+	size_t	len;
 
-    curr = *env;
-    prev = NULL;
-    len = ft_strlen(var);
-    while (curr)
-    {
-        next = curr->next;
-
-        if (ft_strncmp(curr->key, var, len) == 0
-            && curr->key[len] == '\0')
-        {
-            if (prev)
-                prev->next = next;
-            else
-                *env = next;
-
-            free(curr->key);
-            free(curr->value);
-            free(curr);
-        }
-        else
-            prev = curr;
-        curr = next;
-    }
+	curr = *env;
+	prev = NULL;
+	len = ft_strlen(var);
+	while (curr)
+	{
+		next = curr->next;
+		if (ft_strncmp(curr->key, var, len) == 0 && curr->key[len] == '\0')
+		{
+			if (prev)
+				prev->next = next;
+			else
+				*env = next;
+			free(curr->key);
+			free(curr->value);
+			free(curr);
+		}
+		else
+			prev = curr;
+		curr = next;
+	}
 }
+
 // Removes one or more environment variables by name.
 // Returns 0 on success, 1 on failure (no arguments or invalid identifier).
-int unset(t_env **env, char **command)
+int	unset(t_env **env, char **command)
 {
-    int i;
+	int	i;
 
-    if(!command[1])
-    {	//bash does not print anything, as this is expected behaviour, not error
-        //ft_putstr_fd("unset: no arguments\n", 2);
-        return 0;
-    }
-    i = 1;//index 0 is unset command
-    while(command[i])
-    {
-        if(!validate_var(command[i]))
-        {
-            ft_putstr_fd("unset: not a valid identifier\n", 2);
-            i++;
-            continue;
-        }
-        if(!check_var_exists(env, command[i]))
-        {
-            i++;
-            continue;
-        }
-        remove_var(env, command[i]);
-        i++;
-    }
-    return 0;//success
+	if (!command[1])
+	{
+		return (0);
+	}
+	i = 1;
+	while (command[i])
+	{
+		if (!validate_var(command[i]))
+		{
+			ft_putstr_fd("unset: not a valid identifier\n", 2);
+			i++;
+			continue ;
+		}
+		if (!check_var_exists(env, command[i]))
+		{
+			i++;
+			continue ;
+		}
+		remove_var(env, command[i]);
+		i++;
+	}
+	return (0);
 }

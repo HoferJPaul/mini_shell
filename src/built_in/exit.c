@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:54:21 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/09 18:32:09 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/10 16:02:24 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,20 @@ static int	safe_atoi(char *str, long long *out)
 	return (0);
 }
 
-// if running in pipeline → terminate only child.
-// If running in parent → terminate entire shell.
+// Prints numeric error, frees shell and exits with code 2.
+static void	exit_numeric_error(t_shell *mini, char *arg)
+{
+	ft_putstr_fd("exit: ", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd(": numeric argument required\n", 2);
+	free_dobby(mini);
+	exit(2);
+}
 
 // Exits the shell with optional exit code.
-//Validates numeric argument and handles errors.
+// Validates numeric argument and handles errors.
+// if running in pipeline → terminate only child.
+// If running in parent → terminate entire shell.
 int	ft_exit(t_shell *mini, char **command)
 {
 	long long	num;
@@ -80,13 +89,7 @@ int	ft_exit(t_shell *mini, char **command)
 		exit(exit_stat);
 	}
 	if (check_str(command[1]) || safe_atoi(command[1], &num))
-	{
-		ft_putstr_fd("exit: ", 2);
-		ft_putstr_fd(command[1], 2);
-		ft_putstr_fd(": numeric argument required\n", 2);
-		free_dobby(mini);
-		exit(2);
-	}
+		exit_numeric_error(mini, command[1]);
 	if (command[2])
 	{
 		ft_putstr_fd("exit: too many arguments\n", 2);

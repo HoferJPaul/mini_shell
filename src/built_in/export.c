@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 14:53:14 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/09 18:33:39 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/10 16:08:18 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,20 +87,32 @@ char	*parse_val(char *var)
 	val[idx] = '\0';
 	return (val);
 }
-/*static int	too_many_arg(char **command)
+
+// Parses and sets/exports one key=value arg; sets *status=1 on bad key.
+static void	export_one(t_env **env, char *arg, int *status)
 {
-	if (!command[2])
-		return (0);
-	printf("export: too many arguments\n");
-	return (1);
-}*/
+	char	*key;
+	char	*val;
+
+	key = parse_key(arg);
+	if (!key)
+	{
+		*status = 1;
+		return ;
+	}
+	val = parse_val(arg);
+	if (!val)
+		env_set(env, key, NULL, 1);
+	else
+		env_set(env, key, val, 1);
+	free(key);
+	free(val);
+}
 
 // Set or update an environment variable; if no value is given,
 //	mark as exported.
 int	export(t_env **env, char **command)
 {
-	char	*key;
-	char	*val;
 	int		i;
 	int		status;
 
@@ -113,21 +125,8 @@ int	export(t_env **env, char **command)
 	status = 0;
 	while (command[i])
 	{
-		key = parse_key(command[i]);
-		if (!key)
-		{
-			status = 1;
-			++i;
-			continue ;
-		}
-		val = parse_val(command[i]);
-		if (!val)
-			env_set(env, key, NULL, 1);
-        else
-            env_set(env, key, val, 1);
-			free(key);
-			free(val);
-			++i;
+		export_one(env, command[i], &status);
+		++i;
 	}
 	return (status);
 }

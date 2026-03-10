@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 14:34:28 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/09 16:06:15 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/10 16:20:20 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,58 @@ int	check_builtin(char *cmd)
 	return (1);
 }
 
+// Runs a builtin with redirections applied, restoring stdin/stdout after.
+static int	exec_builtin_with_redirs(t_shell *mini, char **args)
+{
+	int	saved_in;
+	int	saved_out;
+	int	ret;
+
+	saved_in = dup(STDIN_FILENO);
+	saved_out = dup(STDOUT_FILENO);
+	if (apply_redirections(mini->commands) == -1)
+	{
+		dup2(saved_in, STDIN_FILENO);
+		dup2(saved_out, STDOUT_FILENO);
+		close(saved_in);
+		close(saved_out);
+		mini->g_exit_status = 1;
+		return (1);
+	}
+	ret = exec_builtin(mini, args);
+	dup2(saved_in, STDIN_FILENO);
+	dup2(saved_out, STDOUT_FILENO);
+	close(saved_in);
+	close(saved_out);
+	return (ret);
+}
+
+// Forks, applies redirections in child, execs external command, waits.
+static int	exec_fork_external(t_shell *mini, char **args)
+{
+	pid_t	p;
+	int		status;
+
+	p = fork();
+	if (p < 0)
+		return (perror("fork"), 1);
+	if (p == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		if (apply_redirections(mini->commands) == -1)
+			exit(1);
+		exec_external(mini, args);
+		exit(1);
+	}
+	waitpid(p, &status, 0);
+	if (WIFEXITED(status))
+		mini->g_exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		mini->g_exit_status = 128 + WTERMSIG(status);
+	return (0);
+}
+
 /*
 ** Executes one command.
 **
@@ -55,11 +107,10 @@ int	check_builtin(char *cmd)
 */
 int	execution(t_shell *mini)
 {
-	pid_t	p;
-	int		status;
 	char	**args;
 
-	if (!mini->commands || !mini->commands->args || !mini->commands->args[0])
+	if (!mini->commands || !mini->commands->args
+		|| !mini->commands->args[0])
 		return (1);
 	setup_exec_signals();
 	if (mini->commands->next)
@@ -70,45 +121,6 @@ int	execution(t_shell *mini)
 	if (!args[0])
 		return (mini->g_exit_status = 0, 0);
 	if (check_builtin(mini->commands->args[0]) == 0)
-	{
-		int	saved_in;
-		int	saved_out;
-		int	ret;
-
-		saved_in = dup(STDIN_FILENO);
-		saved_out = dup(STDOUT_FILENO);
-		if (apply_redirections(mini->commands) == -1)
-		{
-		    dup2(saved_in, STDIN_FILENO);   // restore first
-		    dup2(saved_out, STDOUT_FILENO);
-		    close(saved_in);
-		    close(saved_out);
-		    mini->g_exit_status = 1;
-		    return (1);
-		}
-		ret = exec_builtin(mini, args);
-		dup2(saved_in, STDIN_FILENO);
-		dup2(saved_out, STDOUT_FILENO);
-		close(saved_in);
-		close(saved_out);
-		return (ret);
-	}
-	p = fork();
-	if (p < 0)
-		return (perror("fork"), 1);
-	if (p == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-		if (apply_redirections(mini->commands) == -1)
-			exit(1);
-		exec_external(mini, args);
-		exit(1); /* backup – exec_external already exits on failure */
-	}
-	waitpid(p, &status, 0);
-	if (WIFEXITED(status))
-		mini->g_exit_status = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-		mini->g_exit_status = 128 + WTERMSIG(status);
-	return (0);
+		return (exec_builtin_with_redirs(mini, args));
+	return (exec_fork_external(mini, args));
 }

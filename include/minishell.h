@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 11:57:41 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/09 18:45:13 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/10 16:47:43 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,11 @@ int		check_builtin(char *cmd);
 int		exec_builtin(t_shell *mini, char **command);
 int		execution_pipe(t_shell *mini);
 int		apply_redirections(t_command *cmd);
+int		count_commands(t_command *commands);
+void	termios_change(int echo_ctl_chr);
+void	heredoc_child(const char *delim, int no_exp,
+			t_shell *mini, int write_fd);
+char	*read_pipe_content(int fd);
 
 //================= BUILTINS =================================
 int		export(t_env **env, char **command);

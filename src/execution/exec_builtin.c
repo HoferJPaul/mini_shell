@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 14:01:13 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/09 18:51:59 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/10 16:23:12 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 static int	run_builtin(t_shell *mini, char **command)
 {
-
 	if (ft_strcmp(command[0], "cd") == 0)
 		return (cd(mini, command));
 	else if (ft_strcmp(command[0], "export") == 0)
