@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 00:00:00 by phofer            #+#    #+#             */
-/*   Updated: 2026/03/06 16:06:22 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/10 16:46:31 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,15 @@ static int	count_args(t_token *tokens)
 }
 
 /*
+** Checks if token is a redirection operator
+*/
+static int	is_redirect_type(t_token_type type)
+{
+	return (type == T_REDIR_IN || type == T_REDIR_OUT
+		|| type == T_APPEND || type == T_HEREDOC);
+}
+
+/*
 ** Builds a NULL-terminated array of arguments from tokens
 ** Skips redirect operators and their targets
 **
@@ -67,23 +76,13 @@ char	**build_args_array(t_token *tokens)
 				return (NULL);
 			i++;
 		}
-		else if (tokens->type == T_REDIR_IN || tokens->type == T_REDIR_OUT
-			|| tokens->type == T_APPEND || tokens->type == T_HEREDOC)
+		else if (is_redirect_type(tokens->type))
 			tokens = tokens->next;
 		if (tokens)
 			tokens = tokens->next;
 	}
 	args[i] = NULL;
 	return (args);
-}
-
-/*
-** Checks if token is a redirection operator
-*/
-static int	is_redirect_type(t_token_type type)
-{
-	return (type == T_REDIR_IN || type == T_REDIR_OUT
-		|| type == T_APPEND || type == T_HEREDOC);
 }
 
 /*

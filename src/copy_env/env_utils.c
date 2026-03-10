@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 17:12:51 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/05 16:51:05 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/10 16:12:09 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char	*env_get(t_env *env, char *key) // we'll use this instead of getenv
+// we'll use this instead of getenv
+char	*env_get(t_env *env, char *key)
 {
 	while (env)
 	{
@@ -23,11 +24,13 @@ char	*env_get(t_env *env, char *key) // we'll use this instead of getenv
 	return (NULL);
 }
 
-void	env_set(t_env **env, char *key, char *value, int exported_flag)
 // set/update the env
+void	env_set(t_env **env, char *key, char *value, int exported_flag)
 {
-	t_env *tmp = *env;
+	t_env	*tmp;
+	t_env	*new;
 
+	tmp = *env;
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->key, key) == 0)
@@ -39,50 +42,63 @@ void	env_set(t_env **env, char *key, char *value, int exported_flag)
 		}
 		tmp = tmp->next;
 	}
-	// not found → add new
-	t_env *new = create_env(key, value, exported_flag);
+	new = create_env(key, value, exported_flag);
 	new->next = *env;
 	*env = new;
 }
 
-int	env_size(t_env *env) // pretty straightforward name xd
+// pretty straightforward name xd
+int	env_size(t_env *env)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (env && ++i)
 		env = env->next;
 	return (i);
 }
 
-char	**env_to_array(t_env *env) // because execve needs char **
+// Builds a "key=value" heap string for one env node.
+static char	*env_node_to_str(t_env *env)
 {
-	int n;
-	char **arr;
-	int i;
-	char *tmp;
-    int val_len;
-    
-    n = env_size(env);
+	char	*tmp;
+	int		val_len;
+
+	if (env->value == NULL)
+		val_len = 0;
+	else
+		val_len = ft_strlen(env->value);
+	tmp = malloc(ft_strlen(env->key) + val_len + 2);
+	if (!tmp)
+		return (NULL);
+	if (env->value == NULL)
+		env->value = "";
+	sprintf(tmp, "%s=%s", env->key, env->value);
+	return (tmp);
+}
+
+// Converts the env linked list
+//		to a NULL-terminated array of "key=value" strings.
+char	**env_to_array(t_env *env)
+{
+	char	**arr;
+	int		i;
+	int		n;
+
+	n = env_size(env);
 	arr = malloc(sizeof(char *) * (n + 1));
-    if(!arr)
-        return NULL;
-    i = 0;
+	if (!arr)
+		return (NULL);
+	i = 0;
 	while (env)
 	{
-        if(env->value == NULL)
-            val_len = 0;
-        else
-            val_len = ft_strlen(env->value);
-		tmp = malloc(ft_strlen(env->key) + val_len + 2);
-        if(!tmp)
-        {
-            arr[i] = NULL;
-            free_array(arr);
-            return NULL;
-        }
-        if(env->value == NULL)
-            env->value = "";
-		sprintf(tmp, "%s=%s", env->key, env->value);
-		arr[i++] = tmp;
+		arr[i] = env_node_to_str(env);
+		if (!arr[i])
+		{
+			free_array(arr);
+			return (NULL);
+		}
+		i++;
 		env = env->next;
 	}
 	arr[i] = NULL;

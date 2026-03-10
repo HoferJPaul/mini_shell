@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   print_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zgahrama <zgahrama@student.42prague.com    +#+  +:+       +#+        */
+/*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/13 16:37:48 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/02/16 13:38:37 by zgahrama         ###   ########.fr       */
+/*   Updated: 2026/03/10 16:12:21 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int count_env_nodes(t_env *env)
+static int	count_env_nodes(t_env *env)
 {
-	int count;
-	t_env *temp;
+	int		count;
+	t_env	*temp;
 
 	count = 0;
 	temp = env;
@@ -27,11 +27,11 @@ static int count_env_nodes(t_env *env)
 	return (count);
 }
 
-static t_env **build_env_array(t_env *env, int count)
+static t_env	**build_env_array(t_env *env, int count)
 {
-	t_env **arr;
-	t_env *temp;
-	int i;
+	t_env	**arr;
+	t_env	*temp;
+	int		i;
 
 	arr = malloc(sizeof(t_env *) * count);
 	if (!arr)
@@ -47,11 +47,11 @@ static t_env **build_env_array(t_env *env, int count)
 	return (arr);
 }
 
-static void sort_env_array(t_env **arr, int count)
+static void	sort_env_array(t_env **arr, int count)
 {
-	int i;
-	int j;
-	t_env *temp;
+	int		i;
+	int		j;
+	t_env	*temp;
 
 	i = 0;
 	while (i < count - 1)
@@ -71,18 +71,18 @@ static void sort_env_array(t_env **arr, int count)
 	}
 }
 
-void print_env(t_env *env)
+void	print_env(t_env *env)
 {
-	t_env **arr;
-	int count;
-	int i;
+	t_env	**arr;
+	int		count;
+	int		i;
 
 	if (!env)
-		return;
+		return ;
 	count = count_env_nodes(env);
 	arr = build_env_array(env, count);
 	if (!arr)
-		return;
+		return ;
 	sort_env_array(arr, count);
 	i = 0;
 	while (i < count)

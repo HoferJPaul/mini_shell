@@ -6,34 +6,12 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/03 14:12:09 by zgahrama          #+#    #+#             */
-/*   Updated: 2026/03/09 16:07:01 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/10 16:16:59 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 #include "../../include/tokens.h"
-
-/*
-** Counts the number of commands in the linked list.
-** Used to determine how many PIDs to allocate for the pipeline.
-**
-** @param commands: Head of the command linked list
-** @return: Number of commands in the list
-*/
-static int	count_commands(t_command *commands)
-{
-	t_command	*curr;
-	int			i;
-
-	i = 0;
-	curr = commands;
-	while (curr)
-	{
-		i++;
-		curr = curr->next;
-	}
-	return (i);
-}
 
 /*
 ** Extracts the exit status from waitpid() result.
@@ -68,8 +46,6 @@ int	extract_status(int status)
 static void	exec_pipe_child(t_shell *mini, t_command *curr, int prev_fd,
 		int fd[2])
 {
-	/* wire up pipe fds BEFORE applying redirections so that explicit
-	   redirections (< or >) can override the pipe ends if needed */
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (prev_fd != -1)
@@ -83,7 +59,6 @@ static void	exec_pipe_child(t_shell *mini, t_command *curr, int prev_fd,
 		close(fd[0]);
 		close(fd[1]);
 	}
-	/* apply file redirections – they override the pipe ends when present */
 	if (apply_redirections(curr) == -1)
 		exit(1);
 	if (!curr || !curr->args || !curr->args[0] || curr->args[0][0] == '\0')
@@ -91,19 +66,26 @@ static void	exec_pipe_child(t_shell *mini, t_command *curr, int prev_fd,
 	if (check_builtin(curr->args[0]) == 0)
 		exit(exec_builtin(mini, curr->args));
 	exec_external(mini, curr->args);
-	/* exec_external never returns on success; reaching here means failure */
 	exit(127);
+}
+
+// Closes prev_fd and rotates pipe ends forward for next iteration.
+static void	pipe_advance_fds(int *prev_fd, int *fd, t_command *curr)
+{
+	if (*prev_fd != -1)
+		close(*prev_fd);
+	if (curr->next)
+	{
+		close(fd[1]);
+		*prev_fd = fd[0];
+	}
 }
 
 /*
 ** Creates pipes and forks child processes for each command in pipeline.
 ** Each child gets connected via pipes, with stdin from previous command
 ** and stdout to next command. Parent closes unused pipe ends.
-**
-** @param mini: Shell state
-** @param pid: Array to store child PIDs
-** @param last_pid: Output parameter for last child PID (for exit status)
-** @return: Number of processes created, or -1 on error
+** Returns number of processes created, or -1 on error.
 */
 static int	execute_pipe_cmds(t_shell *mini, pid_t *pid, pid_t *last_pid)
 {
@@ -124,13 +106,7 @@ static int	execute_pipe_cmds(t_shell *mini, pid_t *pid, pid_t *last_pid)
 			return (perror("fork"), -1);
 		if (pid[i] == 0)
 			exec_pipe_child(mini, curr, prev_fd, fd);
-		if (prev_fd != -1)
-			close(prev_fd);
-		if (curr->next)
-		{
-			close(fd[1]);
-			prev_fd = fd[0];
-		}
+		pipe_advance_fds(&prev_fd, fd, curr);
 		curr = curr->next;
 		i++;
 	}

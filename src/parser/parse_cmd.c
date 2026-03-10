@@ -6,7 +6,7 @@
 /*   By: phofer <phofer@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/23 15:36:02 by phofer            #+#    #+#             */
-/*   Updated: 2026/02/23 15:36:46 by phofer           ###   ########.fr       */
+/*   Updated: 2026/03/10 16:32:55 by phofer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ t_command	*parse_single_command(t_token **tokens)
 		*tokens = (*tokens)->next;
 	return (cmd);
 }
-
 
 /*
 ** Parses entire pipeline from token list
