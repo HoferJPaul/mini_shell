@@ -155,5 +155,10 @@ update 09.03 16:00 by phofer
 {
 	- fixed some bugs, memory leaks
 	- updated signal logic, seperate handlers for child/parent
-	- started norm corections
+	- started norm corrections
 }
+update 11.03 16:00 by phofer
+{
+	- norm corrections all day!
+}
+
